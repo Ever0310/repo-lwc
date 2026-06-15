@@ -1,0 +1,159 @@
+<template>
+    <lightning-service-cloud-voice-toolkit-api></lightning-service-cloud-voice-toolkit-api>
+    <lightning-card title={cardTitle} icon-name="utility:einstein">
+        <span slot="actions" lwc:if={hasSentiment} class={sentimentClass}>{sentimentLabel}</span>
+        <div class="slds-card__body slds-card__body_inner">
+
+            <!-- ═══ MODE FIN D'APPEL ═══ -->
+            <template lwc:if={callEnded}>
+
+                <!-- Chargement du compte rendu -->
+                <template lwc:if={summaryLoading}>
+                    <div class="slds-align_absolute-center slds-p-around_medium">
+                        <lightning-spinner alternative-text="Génération du compte rendu" size="small"></lightning-spinner>
+                        <p class="slds-text-color_weak slds-m-top_small">Génération du compte rendu…</p>
+                    </div>
+                </template>
+
+                <!-- Compte rendu disponible -->
+                <template lwc:elseif={hasSummary}>
+                    <div class="summary-box">
+                        <div class="summary-header">
+                            <lightning-icon icon-name="utility:note" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+                            <span class="slds-text-title_caps summary-label">Compte rendu</span>
+                        </div>
+                        <p class="slds-text-body_regular slds-m-top_xx-small">{summary}</p>
+                        <div class="slds-m-top_small slds-text-align_right">
+                            <template lwc:if={summaryValidated}>
+                                <p class="action-sent-msg">
+                                    <lightning-icon icon-name="utility:check" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+                                    Compte rendu validé
+                                </p>
+                            </template>
+                            <template lwc:else>
+                                <lightning-button
+                                    label="Valider"
+                                    icon-name="utility:check"
+                                    icon-position="left"
+                                    variant="success"
+                                    onclick={handleSummaryValidate}>
+                                </lightning-button>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+            </template>
+
+            <!-- ═══ MODE APPEL EN COURS ═══ -->
+            <template lwc:else>
+
+                <!-- Briefing -->
+                <div class="briefing-box slds-m-bottom_small">
+                    <div class="briefing-header">
+                        <lightning-icon icon-name="utility:info" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+                        <span class="slds-text-title_caps briefing-label">Briefing</span>
+                    </div>
+                    <p class="slds-text-body_regular slds-m-top_xx-small">{briefingText}</p>
+                </div>
+
+                <!-- Alerte conformité -->
+                <template lwc:if={hasAlerte}>
+                    <div class="alerte-box slds-m-bottom_small">
+                        <div class="alerte-header">
+                            <lightning-icon icon-name="utility:warning" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+                            <span class="slds-text-title_caps alerte-label">Alerte conformité</span>
+                        </div>
+                        <p class="slds-text-body_regular slds-m-top_xx-small alerte-text">{alerte}</p>
+                    </div>
+                </template>
+
+                <!-- Action métier -->
+                <template lwc:if={hasAction}>
+                    <div class="action-box slds-m-bottom_small">
+                        <div class="action-header">
+                            <lightning-icon icon-name="utility:process" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+                            <span class="slds-text-title_caps action-label">Action suggérée</span>
+                        </div>
+                        <p class="slds-text-body_regular slds-m-top_xx-small slds-m-bottom_small">{action}</p>
+                        <div class="slds-text-align_right">
+                            <template lwc:if={actionSent}>
+                                <p class="action-sent-msg">
+                                    <lightning-icon icon-name="utility:check" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+                                    Devis envoyé avec succès
+                                </p>
+                            </template>
+                            <template lwc:else>
+                                <lightning-button
+                                    label="Envoyer"
+                                    icon-name="utility:send"
+                                    icon-position="left"
+                                    variant="brand"
+                                    onclick={handleActionSend}>
+                                </lightning-button>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Chargement pitch -->
+                <template lwc:if={isLoading}>
+                    <div class="loading-inline slds-p-around_medium">
+                        <lightning-spinner alternative-text="Analyse en cours" size="small" class="loading-spinner"></lightning-spinner>
+                        <p class="slds-text-color_weak slds-m-top_small">Analyse de la conversation…</p>
+                    </div>
+                </template>
+
+                <!-- Erreur -->
+                <template lwc:elseif={hasError}>
+                    <div class="slds-notify slds-notify_alert slds-alert_error slds-m-bottom_small" role="alert">
+                        <lightning-icon icon-name="utility:error" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                        <span>{error}</span>
+                    </div>
+                </template>
+
+                <!-- Proposition de pitch -->
+                <template lwc:if={hasAdvice}>
+                    <div class="pitch-box slds-m-bottom_small">
+                        <div class="pitch-header">
+                            <lightning-icon icon-name="utility:chat" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+                            <span class="slds-text-title_caps pitch-label">Proposition de pitch</span>
+                            <div class="pitch-actions">
+                                <lightning-button-icon
+                                    icon-name="utility:muted"
+                                    variant="border"
+                                    size="x-small"
+                                    title="Réactiver le micro"
+                                    onclick={handleUnmute}>
+                                </lightning-button-icon>
+                                <lightning-button-icon
+                                    icon-name="utility:check"
+                                    variant="success"
+                                    size="x-small"
+                                    title="Valider et couper le micro"
+                                    onclick={handlePitchValidate}>
+                                </lightning-button-icon>
+                            </div>
+                        </div>
+                        <p class="slds-text-body_regular slds-m-top_xx-small pitch-text">{advice}</p>
+                    </div>
+                </template>
+
+                <!-- Bouton Demander de l'aide : masqué quand un pitch est affiché -->
+                <template lwc:if={showHelpButton}>
+                    <div class="slds-text-align_right">
+                        <lightning-button
+                            label="Demander de l'aide"
+                            icon-name="utility:einstein"
+                            icon-position="left"
+                            variant="brand"
+                            onclick={handleAskHelp}>
+                        </lightning-button>
+                    </div>
+                </template>
+
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

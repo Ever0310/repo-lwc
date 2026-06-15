@@ -1,0 +1,114 @@
+<template>
+    <div class="dashboard">
+        <!-- Ligne du haut : 3 vignettes comme sur l’image (2× panneaux, 1× onduleur) -->
+        <div class="top-row">
+            <!-- Vignette 1 : panneaux solaires – 6 panneaux 2×3, châssis métal noir, câble noir enroulé au sol -->
+            <div class="tile">
+                <svg class="tile-svg" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Panneaux solaires">
+                    <defs>
+                        <linearGradient id="panelGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4A90D9"/>
+                            <stop offset="100%" style="stop-color:#2563A8"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- 6 panneaux en grille 2×3 -->
+                    <rect x="12" y="6" width="44" height="32" rx="3" fill="url(#panelGrad1)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="58" y="6" width="44" height="32" rx="3" fill="url(#panelGrad1)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="104" y="6" width="44" height="32" rx="3" fill="url(#panelGrad1)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="12" y="40" width="44" height="32" rx="3" fill="url(#panelGrad1)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="58" y="40" width="44" height="32" rx="3" fill="url(#panelGrad1)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="104" y="40" width="44" height="32" rx="3" fill="url(#panelGrad1)" stroke="#1a5276" stroke-width="1.5"/>
+                    <!-- Châssis métallique noir (traverse + pieds) -->
+                    <rect x="20" y="74" width="120" height="8" rx="2" fill="#1a1a1a" stroke="#0d0d0d" stroke-width="1"/>
+                    <rect x="68" y="82" width="24" height="14" rx="2" fill="#1a1a1a" stroke="#0d0d0d" stroke-width="1"/>
+                    <!-- Câble noir épais enroulé au sol -->
+                    <ellipse cx="80" cy="108" rx="22" ry="7" fill="none" stroke="#1a1a1a" stroke-width="5"/>
+                    <ellipse cx="80" cy="108" rx="15" ry="5" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+                </svg>
+            </div>
+            <!-- Vignette 2 : même illustration panneaux -->
+            <div class="tile">
+                <svg class="tile-svg" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Panneaux solaires">
+                    <defs>
+                        <linearGradient id="panelGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4A90D9"/>
+                            <stop offset="100%" style="stop-color:#2563A8"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="12" y="6" width="44" height="32" rx="3" fill="url(#panelGrad2)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="58" y="6" width="44" height="32" rx="3" fill="url(#panelGrad2)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="104" y="6" width="44" height="32" rx="3" fill="url(#panelGrad2)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="12" y="40" width="44" height="32" rx="3" fill="url(#panelGrad2)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="58" y="40" width="44" height="32" rx="3" fill="url(#panelGrad2)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="104" y="40" width="44" height="32" rx="3" fill="url(#panelGrad2)" stroke="#1a5276" stroke-width="1.5"/>
+                    <rect x="20" y="74" width="120" height="8" rx="2" fill="#1a1a1a" stroke="#0d0d0d" stroke-width="1"/>
+                    <rect x="68" y="82" width="24" height="14" rx="2" fill="#1a1a1a" stroke="#0d0d0d" stroke-width="1"/>
+                    <ellipse cx="80" cy="108" rx="22" ry="7" fill="none" stroke="#1a1a1a" stroke-width="5"/>
+                    <ellipse cx="80" cy="108" rx="15" ry="5" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+                </svg>
+            </div>
+            <!-- Vignette 3 : onduleur gris, écran avec graphique en barres vertes et icônes, ports câbles noirs en bas -->
+            <div class="tile">
+                <svg class="tile-svg" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Onduleur">
+                    <defs>
+                        <linearGradient id="invGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#B0BEC5"/>
+                            <stop offset="100%" style="stop-color:#78909C"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Boîtier onduleur gris -->
+                    <rect x="24" y="14" width="112" height="62" rx="6" fill="url(#invGrad)" stroke="#546E7A" stroke-width="1.5"/>
+                    <!-- Écran digital (fond sombre) -->
+                    <rect x="32" y="22" width="96" height="32" rx="4" fill="#1a252f" stroke="#37474F" stroke-width="1"/>
+                    <!-- Barres vertes du graphique -->
+                    <rect x="38" y="36" width="10" height="14" rx="2" fill="#2E7D32"/>
+                    <rect x="52" y="32" width="10" height="18" rx="2" fill="#388E3C"/>
+                    <rect x="66" y="28" width="10" height="22" rx="2" fill="#43A047"/>
+                    <rect x="80" y="30" width="10" height="20" rx="2" fill="#388E3C"/>
+                    <rect x="94" y="34" width="10" height="16" rx="2" fill="#2E7D32"/>
+                    <rect x="108" y="38" width="8" height="12" rx="2" fill="#1B5E20"/>
+                    <!-- Petites icônes / boutons à droite de l’écran -->
+                    <circle cx="128" cy="32" r="3" fill="#546E7A"/>
+                    <circle cx="128" cy="40" r="3" fill="#546E7A"/>
+                    <circle cx="128" cy="48" r="3" fill="#546E7A"/>
+                    <!-- Ports / câbles noirs en bas -->
+                    <rect x="44" y="82" width="10" height="16" rx="2" fill="#1a1a1a" stroke="#0d0d0d" stroke-width="1"/>
+                    <rect x="60" y="82" width="10" height="16" rx="2" fill="#1a1a1a" stroke="#0d0d0d" stroke-width="1"/>
+                    <rect x="90" y="82" width="10" height="16" rx="2" fill="#1a1a1a" stroke="#0d0d0d" stroke-width="1"/>
+                    <rect x="106" y="82" width="10" height="16" rx="2" fill="#1a1a1a" stroke="#0d0d0d" stroke-width="1"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Ligne du bas : Rendement actuel (jauge) + bouton Diagnostic -->
+        <div class="bottom-row">
+            <div class="tile tile-rendement" role="region" aria-label="Rendement actuel">
+                <h3 class="tile-title">Rendement actuel</h3>
+                <div class="gauge-wrap" role="img" aria-label="Jauge de rendement {gaugeValue} pour cent">
+                    <svg class="gauge-svg" viewBox="0 0 200 120" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#27AE60"/>
+                                <stop offset="70%" style="stop-color:#F1C40F"/>
+                                <stop offset="100%" style="stop-color:#E67E22"/>
+                            </linearGradient>
+                        </defs>
+                        <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--slds-g-color-border-2, #eee)" stroke-width="14" stroke-linecap="round"/>
+                        <path class="gauge-fill" d={gaugeArcPath} fill="none" stroke="url(#gaugeGrad)" stroke-width="14" stroke-linecap="round"/>
+                        <text class="gauge-value-text" x="100" y="92" text-anchor="middle">{gaugeValue}%</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="tile tile-diagnostic">
+                <lightning-button
+                    label="Diagnostic"
+                    icon-name="utility:sparkles"
+                    variant="brand"
+                    class="diagnostic-btn"
+                    onclick={handleDiagnostic}
+                    title="Lancer un diagnostic assisté par IA">
+                </lightning-button>
+            </div>
+        </div>
+    </div>
+</template>

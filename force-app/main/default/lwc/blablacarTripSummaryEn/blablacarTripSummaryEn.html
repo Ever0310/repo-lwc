@@ -1,0 +1,189 @@
+<template>
+    <article class={shellClass} aria-labelledby="bbc-title-en">
+        <header class={shellHeadClass}>
+            <div class="bbc-shell__head-left">
+                <div class="bbc-shell__head-icon" aria-hidden="true">
+                    <lightning-icon
+                        icon-name="utility:world"
+                        size="small"
+                        alternative-text=""
+                        class="bbc-shell__head-icon-inner"
+                    ></lightning-icon>
+                </div>
+                <div class="bbc-shell__head-main">
+                    <h2 id="bbc-title-en" class="bbc-shell__title">Trip summary</h2>
+                    <p class="bbc-shell__subtitle">
+                        <lightning-icon
+                            icon-name="utility:info"
+                            size="xx-small"
+                            alternative-text=""
+                            class="bbc-shell__subtitle-ico"
+                        ></lightning-icon>
+                        {headerSubtitleText}
+                    </p>
+                </div>
+            </div>
+            <template if:true={showMsReduceButton}>
+                <button
+                    type="button"
+                    class="bbc-ms-reduce-btn"
+                    title={msCopy.reduceTitle}
+                    onclick={handleMsToggleCompact}
+                >
+                    {msCopy.reduceLabel}
+                </button>
+            </template>
+            <template if:true={showMsExpandButton}>
+                <button
+                    type="button"
+                    class="bbc-ms-reduce-btn"
+                    title={msCopy.expandTitle}
+                    onclick={handleMsToggleCompact}
+                >
+                    {msCopy.expandLabel}
+                </button>
+            </template>
+        </header>
+
+        <div class="bbc-shell__divider" role="presentation"></div>
+
+        <div class="bbc-shell__body">
+                <section class={highlightCardClass} aria-label={routeBandAriaLabel}>
+                <div class="bbc-highlight-card__meta">
+                    <template if:false={isMessagingSession}>
+                        <span class="bbc-pill">One-way</span>
+                    </template>
+                    <template if:true={isMessagingSession}>
+                        <span class="bbc-pill bbc-pill--cancelled bbc-pill--ms">{msCopy.cancelPill}</span>
+                        <span class="bbc-pill bbc-pill--refunded bbc-pill--ms">{msCopy.refundPill}</span>
+                    </template>
+                </div>
+                <div class="bbc-highlight-card__row">
+                    <p class="bbc-highlight-card__lead">
+                        <span class="bbc-route__city">Paris</span>
+                        <span class="bbc-route__arrow" aria-hidden="true"></span>
+                        <span class="bbc-route__city">Bordeaux</span>
+                    </p>
+                    <div class="bbc-highlight-card__price">
+                        <span class="bbc-highlight-card__price-label">{trip.priceLabel}</span>
+                        <span class="bbc-highlight-card__price-value">{trip.price}</span>
+                    </div>
+                </div>
+            </section>
+
+            <template if:false={msCompactView}>
+            <template if:true={isCaseRecord}>
+                <section class="bbc-case-status" aria-label="Trip status">
+                    <div class="bbc-case-status__badge">
+                        <span class="bbc-case-status__pulse" aria-hidden="true"></span>
+                        <span class="bbc-case-status__title">{caseCopy.statusTitle}</span>
+                    </div>
+                    <p class="bbc-case-status__detail">{caseCopy.statusDetail}</p>
+                </section>
+            </template>
+
+            <div class="bbc-tiles">
+                <section class="bbc-tile" aria-label={trip.dateLabel}>
+                    <div class="bbc-tile__icon" aria-hidden="true">
+                        <lightning-icon icon-name="utility:event" size="x-small" alternative-text=""></lightning-icon>
+                    </div>
+                    <p class="bbc-tile__label">{trip.dateLabel}</p>
+                    <p class="bbc-tile__value">{trip.date}</p>
+                </section>
+                <section class="bbc-tile" aria-label={trip.timeLabel}>
+                    <div class="bbc-tile__icon" aria-hidden="true">
+                        <lightning-icon icon-name="utility:clock" size="x-small" alternative-text=""></lightning-icon>
+                    </div>
+                    <p class="bbc-tile__label">{trip.timeLabel}</p>
+                    <p class="bbc-tile__value">{trip.time}</p>
+                </section>
+            </div>
+
+            <section class="bbc-pickup" aria-label={trip.pickupLabel}>
+                <div class="bbc-pickup__icon" aria-hidden="true">
+                    <lightning-icon icon-name="utility:location" size="small" alternative-text=""></lightning-icon>
+                </div>
+                <div class="bbc-pickup__text">
+                    <p class="bbc-pickup__label">{trip.pickupLabel}</p>
+                    <p class="bbc-pickup__value">{trip.pickup}</p>
+                </div>
+                <button
+                    type="button"
+                    class="bbc-icon-btn"
+                    title="Open in Maps"
+                    onclick={handleOpenPickup}
+                >
+                    <lightning-icon icon-name="utility:new_window" size="x-small" alternative-text="Open in Maps"></lightning-icon>
+                </button>
+            </section>
+
+            <section class="bbc-driver" aria-label={trip.driverLabel}>
+                <div class="bbc-driver__avatar">
+                    <img
+                        class="bbc-driver__photo"
+                        src={driverPhotoUrl}
+                        alt={trip.driverAlt}
+                        width="44"
+                        height="44"
+                        loading="lazy"
+                    />
+                </div>
+                <div class="bbc-driver__info">
+                    <p class="bbc-driver__label">{trip.driverLabel}</p>
+                    <p class="bbc-driver__name">{trip.driver}</p>
+                    <span class="bbc-driver__badge">{trip.driverBadge}</span>
+                </div>
+            </section>
+
+            <div class="bbc-actions">
+                <button type="button" class="bbc-btn bbc-btn--primary" onclick={handleViewDriver}>
+                    View driver profile
+                </button>
+                <button type="button" class="bbc-btn bbc-btn--secondary" onclick={handleEditTrip}>
+                    Edit trip
+                </button>
+                <button type="button" class="bbc-btn bbc-btn--ghost" onclick={handleContact}>
+                    Contact
+                </button>
+            </div>
+
+            <template if:true={isCaseRecord}>
+                <div class="bbc-refund">
+                    <template if:false={refunded}>
+                        <button
+                            type="button"
+                            class="bbc-btn bbc-btn--refund"
+                            onclick={handleRefundTrip}
+                            disabled={refundLoading}
+                        >
+                            <template if:true={refundLoading}>
+                                <span class="bbc-refund__spinner-wrap" role="status" aria-live="polite">
+                                    <lightning-spinner
+                                        alternative-text={caseCopy.refundLoadingAlt}
+                                        size="small"
+                                        variant="brand"
+                                    ></lightning-spinner>
+                                </span>
+                            </template>
+                            <template if:false={refundLoading}>
+                                {caseCopy.refundButton}
+                            </template>
+                        </button>
+                    </template>
+                    <template if:true={refunded}>
+                        <p class="bbc-refund__done" role="status" aria-live="polite">
+                            <lightning-icon
+                                icon-name="utility:success"
+                                size="x-small"
+                                alternative-text=""
+                                class="bbc-refund__done-icon"
+                            ></lightning-icon>
+                            {caseCopy.refundDone}
+                        </p>
+                    </template>
+                </div>
+            </template>
+            </template>
+        </div>
+    </article>
+</template>

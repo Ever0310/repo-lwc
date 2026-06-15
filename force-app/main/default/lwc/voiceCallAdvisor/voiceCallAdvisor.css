@@ -1,0 +1,186 @@
+.empty-state {
+    flex-direction: column;
+    min-height: 80px;
+}
+
+.loading-inline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 60px;
+}
+
+/* ── Pastille sentiment ─────────────────────────────── */
+.sentiment-badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    vertical-align: middle;
+}
+
+.sentiment-positif {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #28a745;
+}
+
+.sentiment-neutre {
+    background: #e2e3e5;
+    color: #383d41;
+    border: 1px solid #6c757d;
+}
+
+.sentiment-negatif {
+    background: #fce9e9;
+    color: #c23934;
+    border: 1px solid #c23934;
+}
+
+/* ── Compte rendu ───────────────────────────────────── */
+.summary-box {
+    background: #f8f8f8;
+    border-left: 4px solid #444;
+    border-radius: 4px;
+    padding: 0.6rem 0.75rem;
+}
+
+.summary-header {
+    display: flex;
+    align-items: center;
+}
+
+.summary-label {
+    color: #444;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.summary-lines p {
+    line-height: 1.6;
+}
+
+/* ── Action métier ──────────────────────────────────── */
+.action-box {
+    background: #f0fff4;
+    border-left: 4px solid #2e844a;
+    border-radius: 4px;
+    padding: 0.6rem 0.75rem;
+}
+
+.action-header {
+    display: flex;
+    align-items: center;
+}
+
+.action-label {
+    color: #2e844a;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.action-sent-msg {
+    display: flex;
+    align-items: center;
+    color: #2e844a;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+/* ── Briefing ───────────────────────────────────────── */
+.briefing-box {
+    background: #f0f4ff;
+    border-left: 4px solid #1b5faa;
+    border-radius: 4px;
+    padding: 0.6rem 0.75rem;
+}
+
+.briefing-header {
+    display: flex;
+    align-items: center;
+}
+
+.briefing-label {
+    color: #1b5faa;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+/* ── Alerte conformité ──────────────────────────────── */
+.alerte-box {
+    background: #fce9e9;
+    border-left: 4px solid #c23934;
+    border-radius: 4px;
+    padding: 0.6rem 0.75rem;
+}
+
+.alerte-header {
+    display: flex;
+    align-items: center;
+}
+
+.alerte-label {
+    color: #c23934;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.alerte-text {
+    color: #3d1a00;
+    line-height: 1.5;
+}
+
+/* ── Conseils IA ────────────────────────────────────── */
+.advice-container {
+    padding: 0.25rem 0;
+}
+
+.advice-content p {
+    line-height: 1.5;
+}
+
+/* ── Séparateur ─────────────────────────────────────── */
+.pitch-divider {
+    border: none;
+    border-top: 2px dashed #e4a820;
+    margin: 0.75rem 0;
+}
+
+/* ── Pitch ──────────────────────────────────────────── */
+.pitch-box {
+    background: #fffbf0;
+    border-left: 4px solid #e4a820;
+    border-radius: 4px;
+    padding: 0.6rem 0.75rem;
+}
+
+.pitch-header {
+    display: flex;
+    align-items: center;
+}
+
+.pitch-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.pitch-label {
+    color: #b07800;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.pitch-text {
+    font-style: italic;
+    color: #3d2b00;
+}

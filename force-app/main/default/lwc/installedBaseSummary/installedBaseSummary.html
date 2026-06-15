@@ -1,0 +1,99 @@
+<template>
+    <lightning-card title="Base installée" icon-name="utility:product">
+        <div class="installed-base">
+            <!-- Ligne du haut : 3 cartes égales (2 panneaux + 1 onduleur) -->
+            <div class="top-row">
+                <div class="asset-card">
+                    <svg class="asset-svg" viewBox="0 0 140 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Panneau solaire">
+                        <defs>
+                            <linearGradient id="basePanelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#5B9BD5"/>
+                                <stop offset="100%" style="stop-color:#2E75B6"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- 6 panneaux en grille 2x3 -->
+                        <rect x="10" y="8" width="38" height="28" rx="4" fill="url(#basePanelGrad)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="52" y="8" width="38" height="28" rx="4" fill="url(#basePanelGrad)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="94" y="8" width="38" height="28" rx="4" fill="url(#basePanelGrad)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="10" y="40" width="38" height="28" rx="4" fill="url(#basePanelGrad)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="52" y="40" width="38" height="28" rx="4" fill="url(#basePanelGrad)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="94" y="40" width="38" height="28" rx="4" fill="url(#basePanelGrad)" stroke="#1a5276" stroke-width="2"/>
+                        <!-- Support noir -->
+                        <rect x="50" y="72" width="40" height="12" rx="2" fill="#2c3e50" stroke="#1a252f" stroke-width="1"/>
+                        <rect x="58" y="84" width="24" height="20" rx="2" fill="#2c3e50" stroke="#1a252f" stroke-width="1"/>
+                        <!-- Câble enroulé -->
+                        <ellipse cx="70" cy="108" rx="18" ry="6" fill="none" stroke="#5D6D7E" stroke-width="3"/>
+                        <ellipse cx="70" cy="108" rx="12" ry="4" fill="none" stroke="#5D6D7E" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="asset-card">
+                    <svg class="asset-svg" viewBox="0 0 140 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Panneau solaire">
+                        <defs>
+                            <linearGradient id="basePanelGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#5B9BD5"/>
+                                <stop offset="100%" style="stop-color:#2E75B6"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="10" y="8" width="38" height="28" rx="4" fill="url(#basePanelGrad2)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="52" y="8" width="38" height="28" rx="4" fill="url(#basePanelGrad2)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="94" y="8" width="38" height="28" rx="4" fill="url(#basePanelGrad2)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="10" y="40" width="38" height="28" rx="4" fill="url(#basePanelGrad2)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="52" y="40" width="38" height="28" rx="4" fill="url(#basePanelGrad2)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="94" y="40" width="38" height="28" rx="4" fill="url(#basePanelGrad2)" stroke="#1a5276" stroke-width="2"/>
+                        <rect x="50" y="72" width="40" height="12" rx="2" fill="#2c3e50" stroke="#1a252f" stroke-width="1"/>
+                        <rect x="58" y="84" width="24" height="20" rx="2" fill="#2c3e50" stroke="#1a252f" stroke-width="1"/>
+                        <ellipse cx="70" cy="108" rx="18" ry="6" fill="none" stroke="#5D6D7E" stroke-width="3"/>
+                        <ellipse cx="70" cy="108" rx="12" ry="4" fill="none" stroke="#5D6D7E" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="asset-card">
+                    <svg class="asset-svg" viewBox="0 0 140 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Onduleur">
+                        <defs>
+                            <linearGradient id="invBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#BDC3C7"/>
+                                <stop offset="100%" style="stop-color:#95A5A6"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Corps onduleur -->
+                        <rect x="20" y="15" width="100" height="65" rx="8" fill="url(#invBodyGrad)" stroke="#2c3e50" stroke-width="2"/>
+                        <!-- Écran LCD avec barre verte -->
+                        <rect x="28" y="24" width="84" height="28" rx="4" fill="#1a252f" stroke="#34495e" stroke-width="1"/>
+                        <rect x="32" y="28" width="12" height="20" rx="2" fill="#27AE60"/>
+                        <rect x="46" y="28" width="12" height="20" rx="2" fill="#27AE60"/>
+                        <rect x="60" y="28" width="12" height="20" rx="2" fill="#2ecc71"/>
+                        <rect x="74" y="28" width="12" height="20" rx="2" fill="#27AE60"/>
+                        <rect x="88" y="28" width="12" height="20" rx="2" fill="#27AE60"/>
+                        <rect x="102" y="28" width="8" height="20" rx="2" fill="#229954"/>
+                        <!-- Câbles en bas -->
+                        <rect x="38" y="88" width="8" height="18" rx="2" fill="#5D6D7E" stroke="#2c3e50" stroke-width="1"/>
+                        <rect x="52" y="88" width="8" height="18" rx="2" fill="#5D6D7E" stroke="#2c3e50" stroke-width="1"/>
+                        <rect x="84" y="88" width="8" height="18" rx="2" fill="#5D6D7E" stroke="#2c3e50" stroke-width="1"/>
+                        <rect x="98" y="88" width="8" height="18" rx="2" fill="#5D6D7E" stroke="#2c3e50" stroke-width="1"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Ligne du bas : carte Rendement actuel + jauge -->
+            <div class="rendement-card">
+                <h3 class="rendement-title">Rendement actuel</h3>
+                <div class="gauge-wrap" role="img" aria-label="Jauge de rendement {gaugeValue} pour cent">
+                    <svg class="gauge-svg" viewBox="0 0 200 120" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <linearGradient id="gaugeFillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#27AE60"/>
+                                <stop offset="70%" style="stop-color:#F1C40F"/>
+                                <stop offset="100%" style="stop-color:#E67E22"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Arc de fond (50% à 80%) -->
+                        <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--slds-g-color-border-2, #eee)" stroke-width="14" stroke-linecap="round"/>
+                        <!-- Arc de valeur (50 à gaugeValue %) -->
+                        <path class="gauge-fill" d={gaugeArcPath} fill="none" stroke="url(#gaugeFillGrad)" stroke-width="14" stroke-linecap="round"/>
+                        <!-- Valeur au centre -->
+                        <text class="gauge-value-text" x="100" y="92" text-anchor="middle">{gaugeValue}%</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>

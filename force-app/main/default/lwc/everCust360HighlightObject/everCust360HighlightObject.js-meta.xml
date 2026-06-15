@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>EVER Customer 360 Highlight Hueber</masterLabel>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <objects>
+                <object>Account</object>
+                <object>Case</object>
+                <object>Contact</object>
+                <object>LiveChatTranscript</object>
+                <object>MessagingSession</object>
+                <object>WorkOrder</object>
+                <object>VoiceCall</object>
+            </objects>
+            <property name="backgroundTemplate" type="String" default="Blue" label="background Template" datasource="Blue, Red, Teal, White"/>
+            <property name="cardBorderRadius" type="String" label="Card Border Radius"/>
+            <property name="custombackgroundImageUrl" type="String" label="Background Image URL"/>
+            <property name="collapseButtonBackgroundColor" type="String" label="Collapse Button Background Color" description="Leave empty for default value"/>
+            <property name="hueRotation" type="Integer" default="0" label="Coloration Rotation, from 0 to 360"/>
+            <property name="displayCsatIcon" type="Boolean" default="false" label="Display CSAT Icon"/>
+            <property name="showTitle" type="Boolean" default="true" label="Show Title"/>
+            <property name="displayAccountName" type="Boolean" default="true" label="Show Account Name"/>
+            <property name="accountType" type="String" label="Account Type" default="Company" datasource="Company,Household"/>
+            <property name="displayContactCard" type="String" default="inline" label="Contact information display method" datasource="inline,button,mouseover"/>
+            <property name="hideContactDescription" type="Boolean" default="false" label="Hide contact description label"/>
+            <property name="collapsed" type="Boolean" default="false" label="Content collapsed by default"/>
+            <property name="metricMultipleRows" type="Boolean" default="false" label="Display Metrics on multiple rows"/>
+            <property name="backgroundMetricColor" type="String" default="" label="Background color for metric"/>
+            <property name="metric1icon" type="String" default="utility:ribbon" label="Icon name for first customer metric"/>
+            <property name="metric1iconsize" type="String" default="small" label="First metric icon size" datasource="none,x-small,small,medium,large"/>
+            <property name="metric1label" type="String" default="{!$Label.GEFCust360_Metric1}" label="Label for first customer metric"/>
+            <property name="metric1value" type="String" default="Cust360 Metric 1" label="Value for first customer metric" datasource="Cust360 Metric 1,asset,service_contract"/>
+            <property name="metric2icon" type="String" default="utility:cart" label="Icon name for second customer metric"/>
+            <property name="metric2iconsize" type="String" default="small" label="Second metric icon size" datasource="none,x-small,small,medium,large"/>
+            <property name="metric2label" type="String" default="{!$Label.GEFCust360_Metric2}" label="Label for second customer metric"/>
+            <property name="metric2value" type="String" default="Cust360 Metric 2" label="Value for second customer metric" datasource="Cust360 Metric 2,asset,service_contract"/>
+            <property name="metric3icon" type="String" default="utility:chart" label="Icon name for third customer metric"/>
+            <property name="metric3iconsize" type="String" default="small" label="Third metric icon size" datasource="none,x-small,small,medium,large"/>
+            <property name="metric3label" type="String" default="{!$Label.GEFCust360_Metric3}" label="Label for third customer metric"/>
+            <property name="metric3value" type="String" default="Cust360 Metric 3" label="Value for third customer metric" datasource="Cust360 Metric 3,asset,service_contract"/>
+            <property name="displaycaseoverview" type="Boolean" default="true" label="Display Case Overview"/>
+            <property name="caseoverviewicon" type="String" default="utility:case" label="Icon name for Case Overview"/>
+            <property name="displayworkorderoverview" type="Boolean" default="true" label="Display Work Order Overview"/>
+            <property name="workorderoverviewicon" type="String" default="utility:transport_heavy_truck" label="Icon name for Work Order Overview"/>
+            <property name="displayCsat" type="Boolean" default="true" label="Display CSAT Gauge"/>
+            <property name="csatlabel" type="String" default="{!$Label.GEFCust360_CSAT}" label="CSAT gauge Label"/>
+            <property name="csatminvalue" type="Integer" default="0" label="CSAT min value (default 0)"/>
+            <property name="csatmaxvalue" type="Integer" default="5" label="CSAT max value (default 5)"/>
+            <property name="displayNps" type="Boolean" default="true" label="Display NPS Gauge"/>
+            <property name="npslabel" type="String" default="{!$Label.GEFCust360_NPS}" label="NPS gauge Label"/>
+            <property name="npsminvalue" type="Integer" default="-100" label="NPS min value (default -100)"/>
+            <property name="npsmaxvalue" type="Integer" default="100" label="NPS max value (default 100)"/>
+            <property name="displayChurnRisk" type="Boolean" default="true" label="Display Churn Risk"/>
+            <property name="churnRiskIcon" type="String" default="utility:einstein" label="Churn Risk Icon"/>
+            <property name="churnRiskLabel" type="String" default="{!$Label.GEFCust360_Churn_Risk}" label="Churn Risk Label"/>
+            <property name="churnRiskColor" type="String" default="standard" label="Churn Risk Color" datasource="standard,inverse"/>
+            <property name="churnThreshold1" type="String" default="20" label="Churn risk lower threshold"/>
+            <property name="churnThreshold2" type="String" default="50" label="Churn risk upper threshold"/>
+            <property name="churnRiskHighlyActive" type="String" default="{!$Label.GEFCust360_Highly_active}" label="Churn Risk Highly Active"/>
+            <property name="churnRiskMediumActive" type="String" default="{!$Label.GEFCust360_Medium_active}" label="Churn Risk Medium Active"/>
+            <property name="churnRiskLowActive" type="String" default="{!$Label.GEFCust360_Low_active}" label="Churn Risk Low Active"/>
+        </targetConfig>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="recordId" type="String" label="Record Id" default="{!recordId}"/>
+            <property name="objectApiName" type="String" label="object Api Name" datasource="Account,Case,Contact,LiveChatTranscript,MessagingSession,VoiceCall,WorkOrder"/>
+            <property name="flexipageRegionWidth" type="String" label="Flexipage Region Width" default="SMALL" datasource="SMALL,MEDIUM,LARGE"/>
+            <property name="backgroundTemplate" type="String" default="Blue" label="background Template" datasource="Blue, Red, Teal, White"/>
+            <property name="custombackgroundImageUrl" type="String" label="Background Image URL"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

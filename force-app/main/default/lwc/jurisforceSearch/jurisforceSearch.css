@@ -1,0 +1,320 @@
+/* ── Container ── */
+.jf-container {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px;
+    position: relative;
+}
+
+/* ── Header ── */
+.jf-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.jf-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #032d60;
+    margin: 0;
+}
+
+/* ── Search area ── */
+.jf-search-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.jf-btn {
+    align-self: flex-end;
+}
+
+/* ── Loading ── */
+.jf-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 40px 0;
+}
+
+.jf-loading-text {
+    color: #706e6b;
+    font-size: 0.9rem;
+}
+
+/* ── Error ── */
+.jf-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fef1ee;
+    border: 1px solid #f4bc25;
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: #c23934;
+    font-size: 0.9rem;
+}
+
+/* ── Result ── */
+.jf-result-container {
+    border: 1px solid #dddbda;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,.07);
+}
+
+.jf-result-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f3f3f3;
+    padding: 10px 16px;
+    border-bottom: 1px solid #dddbda;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.jf-result-body {
+    padding: 20px;
+    background: #fff;
+}
+
+.jf-result-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #3e3e3c;
+    white-space: pre-wrap;
+}
+
+/* ── Decision ID badges ── */
+:host .jf-result-text :global(.jf-decision-id) {
+    color: #0070d2;
+    background: #e8f4fd;
+    border: 1px solid #b0d4f1;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-family: monospace;
+    font-size: 0.82em;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+    display: inline-block;
+}
+
+:host .jf-result-text :global(.jf-decision-id:hover) {
+    background: #cce4f6;
+    box-shadow: 0 1px 4px rgba(0,112,210,.25);
+}
+
+/* ── Tooltip ── */
+.jf-tooltip {
+    position: absolute;
+    z-index: 9000;
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+    padding: 14px 16px;
+    min-width: 360px;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    pointer-events: all;
+}
+
+.jf-tooltip-loading {
+    display: flex;
+    justify-content: center;
+    padding: 12px 0;
+}
+
+.jf-tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.jf-tooltip-id {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #0070d2;
+    font-weight: 600;
+}
+
+.jf-tooltip-date {
+    font-size: 0.8rem;
+    color: #706e6b;
+}
+
+.jf-tooltip-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.jf-badge {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 2px 9px;
+    font-size: 0.75rem;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.jf-badge-solution {
+    background: #e8f5e9;
+    border-color: #a5d6a7;
+    color: #2e7d32;
+}
+
+.jf-tooltip-row {
+    display: flex;
+    gap: 8px;
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+}
+
+.jf-tooltip-label {
+    font-weight: 600;
+    color: #706e6b;
+    min-width: 80px;
+    flex-shrink: 0;
+}
+
+.jf-tooltip-value {
+    color: #3e3e3c;
+}
+
+.jf-solution {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.jf-tooltip-section-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #706e6b;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 8px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.jf-tooltip-sommaire {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #3e3e3c;
+}
+
+.jf-tooltip-themes {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #3e3e3c;
+    font-style: italic;
+}
+
+.jf-tooltip-texte {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #3e3e3c;
+    white-space: pre-wrap;
+    background: #f9f9f9;
+    border: 1px solid #ebebeb;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-top: 4px;
+}
+
+.jf-tooltip-texte-collapsed {
+    max-height: 4.8em;
+    overflow: hidden;
+}
+
+.jf-tooltip-texte-open {
+    max-height: none;
+    overflow: visible;
+}
+
+.jf-toggle-btn {
+    background: none;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 1px 7px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    color: #0070d2;
+}
+
+.jf-toggle-btn:hover {
+    background: #e8f4fd;
+}
+
+.jf-tooltip-source {
+    font-size: 0.72rem;
+    color: #999;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.jf-muted {
+    color: #999;
+    font-style: italic;
+}
+
+/* ── Article ref badges ── */
+:host .jf-result-text :global(.jf-article-ref) {
+    color: #1b6b3a;
+    background: #e6f4ec;
+    border: 1px solid #a3d7b4;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+    display: inline;
+}
+
+:host .jf-result-text :global(.jf-article-ref:hover) {
+    background: #c8ebd4;
+    box-shadow: 0 1px 4px rgba(27,107,58,.25);
+}
+
+/* ── Article tooltip ── */
+.jf-article-tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1b6b3a;
+    color: #fff;
+    border-radius: 6px 6px 0 0;
+    margin: -14px -16px 10px -16px;
+    padding: 8px 14px;
+}
+
+.jf-article-tooltip-code {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.jf-article-tooltip-num {
+    font-size: 0.85rem;
+    font-weight: 600;
+    opacity: 0.9;
+}

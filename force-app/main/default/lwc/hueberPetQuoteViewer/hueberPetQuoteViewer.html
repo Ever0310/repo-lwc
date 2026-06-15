@@ -1,0 +1,39 @@
+<template>
+    <template if:true={hasQuote}>
+        <lightning-card title="Votre devis Hueber Assurances" icon-name="doctype:unknown">
+            <div slot="actions">
+                <lightning-button
+                    label="Télécharger"
+                    icon-name="utility:download"
+                    variant="neutral"
+                    class="slds-m-right_x-small"
+                    onclick={handleDownload}>
+                </lightning-button>
+                <lightning-button
+                    label="Continuer"
+                    icon-name="utility:forward"
+                    variant="brand"
+                    onclick={handleNext}>
+                </lightning-button>
+            </div>
+            <div style="padding: 0;">
+                <iframe
+                    src={iframeUrl}
+                    width="100%"
+                    height="750px"
+                    style="border: none; display: block;">
+                </iframe>
+            </div>
+        </lightning-card>
+    </template>
+    <template if:false={hasQuote}>
+        <lightning-card title="Devis" icon-name="doctype:unknown">
+            <div class="slds-p-around_medium">
+                <lightning-icon icon-name="utility:error" variant="error" size="small" class="slds-m-right_x-small"></lightning-icon>
+                <span class="slds-text-color_error">
+                    Le devis n'a pas pu être généré. Vérifiez que la variable <strong>htmlUrl</strong> est bien connectée dans le Flow.
+                </span>
+            </div>
+        </lightning-card>
+    </template>
+</template>

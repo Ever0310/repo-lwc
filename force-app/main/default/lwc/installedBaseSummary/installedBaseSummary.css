@@ -1,0 +1,77 @@
+.installed-base {
+    display: flex;
+    flex-direction: column;
+    gap: var(--slds-g-spacing-4, 1rem);
+    padding: var(--slds-g-spacing-2, 0.5rem) 0;
+}
+
+/* Ligne du haut : 3 cartes égales (carrées) */
+.top-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--slds-g-spacing-3, 0.75rem);
+}
+
+.asset-card {
+    aspect-ratio: 1;
+    background: var(--slds-g-color-surface-2, #f5f5f5);
+    border: var(--slds-g-sizing-border-1, 1px) solid var(--slds-g-color-border-1, #d8dde6);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--slds-g-spacing-2, 0.5rem);
+    min-height: 0;
+}
+
+.asset-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    max-height: 100%;
+}
+
+/* Carte Rendement : ~2/3 largeur, titre centré, jauge en dessous */
+.rendement-card {
+    width: 66.666%;
+    max-width: 100%;
+    background: var(--slds-g-color-surface-2, #f5f5f5);
+    border: var(--slds-g-sizing-border-1, 1px) solid var(--slds-g-color-border-1, #d8dde6);
+    border-radius: 18px;
+    padding: var(--slds-g-spacing-4, 1rem);
+}
+
+.rendement-title {
+    font-size: var(--slds-g-font-size-5, 1rem);
+    font-weight: var(--slds-g-font-weight-6, 600);
+    color: var(--slds-g-color-on-surface-1, #181818);
+    text-align: center;
+    margin: 0 0 var(--slds-g-spacing-4, 1rem) 0;
+}
+
+.gauge-wrap {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+.gauge-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gauge-bg {
+    transition: stroke 0.15s ease;
+}
+
+.gauge-fill {
+    transition: d 0.6s ease-out;
+}
+
+.gauge-value-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    fill: var(--slds-g-color-on-surface-1, #181818);
+    font-family: var(--slds-g-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+}

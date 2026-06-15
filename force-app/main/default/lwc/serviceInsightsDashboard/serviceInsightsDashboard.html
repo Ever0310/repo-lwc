@@ -1,0 +1,510 @@
+<template>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+    <div class="content-area">
+
+      <!-- ===== PAGE: Service Insights ===== -->
+      <template if:true={isOmni}>
+        <section class="dashboard active">
+          <div class="page-title-row">
+            <h1 class="page-title">Service Insights</h1>
+            <div class="top-tabs">
+              <span class={topTabOmniClass} data-page="omni" onclick={switchPage}>Performance des Requêtes</span>
+              <span class={topTabAgentsClass} data-page="agents" onclick={switchPage}>Performance des Conseillers</span>
+              <span class={topTabKnowledgeClass} data-page="knowledge" onclick={switchPage}>Gestion des Connaissances</span>
+            </div>
+          </div>
+          <div class="page-tabs">
+            <div class={subTabCasesClass} data-subtab="cases" onclick={switchSubTab}><span class="page-tab-label">Requêtes</span></div>
+            <div class={subTabOmniClass} data-subtab="omni" onclick={switchSubTab}><span class="page-tab-label">Omni-Channel</span></div>
+            <div class={subTabKnowledgeClass} data-subtab="knowledge" onclick={switchSubTab}><span class="page-tab-label">Connaissances</span></div>
+            <div class="page-tab-spacer"></div>
+          </div>
+
+          <!-- ---- Sous-onglet : Requêtes ---- -->
+          <template if:true={isCasesSubTab}>
+            <div class="filter-bar">
+              <span class="filter-label">Filtrer par :</span>
+              <div class="filters">
+                <div class="filter-item"><span class="filter-item-label">Période :</span><div class="filter-combo"><span>Semaine en cours</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+                <div class="filter-item"><span class="filter-item-label">Segment :</span><div class="filter-combo"><span>Tous les segments</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div>
+                  <div class="filter-dropdown-list">
+                    <span class="filter-dropdown-item">Tous les segments</span>
+                    <span class="filter-dropdown-item">Nomade / Business Traveller</span>
+                    <span class="filter-dropdown-item">Famille / Parent Actif</span>
+                    <span class="filter-dropdown-item">Jeune Urbain / Tendance</span>
+                    <span class="filter-dropdown-item">Senior Bien-être</span>
+                    <span class="filter-dropdown-item">Premium / Luxe</span>
+                  </div>
+                </div>
+                <div class="filter-item"><span class="filter-item-label">Statut :</span><div class="filter-combo"><span>Tous les statuts</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+                <div class="filter-item"><span class="filter-item-label">Agent :</span><div class="filter-combo"><span>Tous les agents</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+              </div>
+            </div>
+            <div class="card card-with-header">
+              <div class="card-tab-header"><span class="card-tab-title">Raisons de Contact</span><span class="card-tab-sub">Période en cours vs période précédente</span></div>
+              <div class="card-body-padded">
+                <div class="chart-wrap" style="height:320px;"><canvas id="casesContactReasonsChart"></canvas></div>
+              </div>
+            </div>
+          </template>
+
+          <!-- ---- Sous-onglet : Omni-Channel ---- -->
+          <template if:true={isOmniSubTab}>
+            <div class="filter-bar">
+              <span class="filter-label">Filtrer par :</span>
+              <div class="filters">
+                <div class="filter-item"><span class="filter-item-label">Période :</span><div class="filter-combo"><span>Semaine en cours</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+                <div class="filter-item"><span class="filter-item-label">Canal :</span><div class="filter-combo"><span>Tous les canaux</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+                <div class="filter-item"><span class="filter-item-label">File d'attente :</span><div class="filter-combo"><span>Toutes les files</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+                <div class="filter-item"><span class="filter-item-label">Agent :</span><div class="filter-combo"><span>Tous les agents</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+              </div>
+            </div>
+            <div class="card card-with-header">
+              <div class="card-tab-header"><span class="card-tab-title">Répartition du Volume de Travail &amp; Efficacité du Routage</span></div>
+              <div class="card-body-padded">
+                <div class="three-col">
+                  <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Volume par Canal</span></div><div class="chart-wrap"><canvas id="channelPieChart"></canvas></div></div>
+                  <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Volume par Statut</span></div><div class="chart-wrap"><canvas id="statusBarChart"></canvas></div></div>
+                  <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Efficacité du Routage</span></div><div class="chart-wrap"><canvas id="routingChart"></canvas></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="card card-with-header">
+              <div class="card-tab-header"><span class="card-tab-title">Explorateur de Données</span></div>
+              <div class="card-body-padded">
+                <div class="two-col">
+                  <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Volume par File d'Attente</span></div><div class="chart-wrap"><canvas id="queueChart"></canvas></div></div>
+                  <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Tendance du Volume</span></div><div class="chart-wrap"><canvas id="volumeTrendChart"></canvas></div></div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <!-- ---- Sous-onglet : Connaissances ---- -->
+          <template if:true={isKnowledgeSubTab}>
+            <div class="filter-bar" style="flex-wrap:wrap;">
+              <span class="filter-label">Filtrer par :</span>
+              <div class="filters" style="flex-wrap:wrap;gap:12px;">
+                <div class="filter-item"><span class="filter-item-label">Date d'engagement :</span><div class="filter-combo"><span>Semaine en cours</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+                <div class="filter-item"><span class="filter-item-label">Titre article :</span><div class="filter-combo"><span>Tous les articles</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+                <div class="filter-item"><span class="filter-item-label">Langue :</span><div class="filter-combo"><span>Toutes les langues</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+              </div>
+            </div>
+            <div class="card card-with-header">
+              <div class="card-tab-header"><span class="card-tab-title">Interactions Base de Connaissances</span></div>
+              <div class="card-body-padded">
+                <div class="chart-card" style="margin-bottom:16px;"><div class="chart-card-header"><span class="chart-card-title">Requêtes avec Interactions KB</span></div><div class="chart-wrap" style="height:200px;"><canvas id="kbInteractionsChart2"></canvas></div></div>
+                <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Temps de Traitement Moyen</span></div><div class="chart-wrap" style="height:200px;"><canvas id="avgHandleTimeChart2"></canvas></div></div>
+              </div>
+            </div>
+          </template>
+
+        </section>
+      </template>
+
+      <!-- ===== PAGE: Performance des Conseillers ===== -->
+      <template if:true={isAgents}>
+        <section class="dashboard active">
+          <div class="page-title-row">
+            <h1 class="page-title">Service Insights</h1>
+            <div class="top-tabs">
+              <span class={topTabOmniClass} data-page="omni" onclick={switchPage}>Performance des Requêtes</span>
+              <span class={topTabAgentsClass} data-page="agents" onclick={switchPage}>Performance des Conseillers</span>
+              <span class={topTabKnowledgeClass} data-page="knowledge" onclick={switchPage}>Gestion des Connaissances</span>
+            </div>
+          </div>
+          <div class="page-tabs"><div class="page-tab"><span class="page-tab-label">Requêtes</span></div><div class="page-tab active"><span class="page-tab-label">Omni-Channel</span></div><div class="page-tab"><span class="page-tab-label">Connaissances</span></div><div class="page-tab-spacer"></div></div>
+          <div class="filter-bar">
+            <span class="filter-label">Filtrer par :</span>
+            <div class="filters">
+              <div class="filter-item"><span class="filter-item-label">Période :</span><div class="filter-combo"><span>Semaine en cours</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+              <div class="filter-item"><span class="filter-item-label">File d'attente :</span><div class="filter-combo"><span>Toutes les files</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+              <div class="filter-item"><span class="filter-item-label">Agent :</span><div class="filter-combo"><span>Tous les conseillers</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+              <div class="filter-item"><span class="filter-item-label">Canal :</span><div class="filter-combo"><span>Tous les canaux</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+            </div>
+          </div>
+          <div class="section-block"><h2 class="section-heading">Vue d'ensemble</h2><p class="section-desc">Résumé généré par l'IA mettant en avant les principaux indicateurs de l'ensemble des conseillers.</p></div>
+          <div class="kpi-grid">
+            <div class="kpi-metric-card kpi-tall">
+              <div class="kpi-mc-header"><div><span class="kpi-mc-title">Total Éléments de Travail</span><span class="kpi-mc-sub">Semaine en cours, toutes les données</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div>
+              <div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="7212">0</span><span class="badge-sm badge-high">Élevé</span></div>
+              <span class="kpi-mc-trend trend-up-bad">+8.3% vs sem. du 17/03</span>
+              <div class="metric-dataviz"><div class="dataviz-y-axis"><span class="axis-label">8k</span><span class="axis-label">5k</span></div><div class="dataviz-baseline"></div><div class="dataviz-plot"><svg class="dataviz-chart" viewBox="0 0 174 74" preserveAspectRatio="none"><rect x="0" y="20" width="174" height="38" fill="#E3F2FF"/><polyline points="0,58 25,52 50,48 75,44 100,38 130,28 155,20 174,14" fill="none" stroke="#4992FE" stroke-width="2.5"/><polyline points="155,20 174,14" fill="none" stroke="#06A59A" stroke-width="2.5"/></svg><div class="dataviz-x-axis"><span class="axis-label">18/03</span><span class="axis-label">24/03</span></div></div><div class="dataviz-value"><div class="dataviz-baseline"></div><div class="dataviz-point-label"><span class="dataviz-dot" style="background:#06A59A"></span><span class="dataviz-val">7.2k</span></div></div></div>
+            </div>
+            <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Éléments Acceptés</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="823">0</span><span class="badge-sm badge-medium">Moyen</span></div><span class="kpi-mc-trend trend-up-bad">+12.4% vs sem. du 17/03</span></div>
+            <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Max. Utilisation Omni</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div><div class="kpi-mc-value-row"><span class="kpi-mc-value">89.2%</span><span class="badge-sm badge-medium">Moyen</span></div><span class="kpi-mc-trend trend-up-good">+2.1% vs sem. du 17/03</span></div>
+            <div class="kpi-metric-card kpi-tall">
+              <div class="kpi-mc-header"><div><span class="kpi-mc-title">Total Requêtes</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div>
+              <div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="11327">0</span><span class="badge-sm badge-high">Élevé</span></div>
+              <span class="kpi-mc-trend trend-up-bad">+15.7% vs sem. du 17/03</span>
+              <div class="metric-dataviz"><div class="dataviz-y-axis"><span class="axis-label">12k</span><span class="axis-label">6k</span></div><div class="dataviz-baseline"></div><div class="dataviz-plot"><svg class="dataviz-chart" viewBox="0 0 174 74" preserveAspectRatio="none"><rect x="0" y="18" width="174" height="42" fill="#E3F2FF"/><polyline points="0,62 30,55 60,48 90,40 120,30 150,18 174,12" fill="none" stroke="#4992FE" stroke-width="2.5"/><polyline points="150,18 174,12" fill="none" stroke="#06A59A" stroke-width="2.5"/></svg><div class="dataviz-x-axis"><span class="axis-label">18/03</span><span class="axis-label">24/03</span></div></div><div class="dataviz-value"><div class="dataviz-baseline"></div><div class="dataviz-point-label"><span class="dataviz-dot" style="background:#06A59A"></span><span class="dataviz-val">11.3k</span></div></div></div>
+            </div>
+            <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Requêtes Ouvertes</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="1327">0</span><span class="badge-sm badge-medium">Moyen</span></div><span class="kpi-mc-trend trend-up-bad">+22.6% vs sem. du 17/03</span></div>
+            <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Éléments Refusés</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="421">0</span><span class="badge-sm badge-medium">Moyen</span></div><span class="kpi-mc-trend trend-up-bad">+18.2% vs sem. du 17/03</span></div>
+            <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Total Escalades</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="83">0</span><span class="badge-sm badge-high">Élevé</span></div><span class="kpi-mc-trend trend-up-bad">+42.1% vs sem. du 17/03</span></div>
+            <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Requêtes Fermées</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="2251">0</span><span class="badge-sm badge-medium">Moyen</span></div><span class="kpi-mc-trend trend-down-bad">-5.3% vs sem. du 17/03</span></div>
+          </div>
+          <div class="section-block"><h2 class="section-heading">Explorer plus</h2><p class="section-desc">Résumé généré par l'IA mettant en avant les principaux indicateurs.</p></div>
+          <div class="card card-with-header">
+            <div class="card-tab-header"><span class="card-tab-title">Explorateur de Données</span></div>
+            <div class="card-body-padded">
+              <div class="two-col">
+                <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Volume Conseiller / Volume Requêtes par Conseiller</span></div><div class="chart-wrap"><canvas id="agentVolumeChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Volume Éléments de Travail par Conseiller</span></div><div class="chart-wrap"><canvas id="agentWorkItemChart"></canvas></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="section-block"><h2 class="section-heading">Tableau Détaillé</h2><p class="section-desc">Résumé généré par l'IA.</p></div>
+          <div class="card card-with-header" style="overflow-x:auto;">
+            <div class="card-tab-header"><span class="card-tab-title">Requêtes</span></div>
+            <div style="padding:0 24px 24px;overflow-x:auto;">
+              <table class="data-table">
+                <thead><tr><th>Nom Conseiller</th><th>Temps Traitement Moy.</th><th>Temps Moy. 1ère Clôture (h)</th><th>% Résolution 1er Contact</th><th>Temps Actif (min)</th><th>Score CSAT</th><th>Total Éléments</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td class="link-cell">Marie Dupont</td><td>18 min</td><td>4.2</td><td>78%</td><td>142</td><td>4.2</td><td>187</td><td><button class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0250D9"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></td></tr>
+                  <tr><td class="link-cell">Lucas Martin</td><td>22 min</td><td>5.8</td><td>68%</td><td>165</td><td>3.8</td><td>165</td><td><button class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0250D9"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></td></tr>
+                  <tr><td class="link-cell">Sophie Bernard</td><td>15 min</td><td>3.1</td><td>85%</td><td>198</td><td>4.6</td><td>198</td><td><button class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0250D9"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></td></tr>
+                  <tr><td class="link-cell">David Petit</td><td>28 min</td><td>7.4</td><td>55%</td><td>112</td><td>3.2</td><td>142</td><td><button class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0250D9"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></td></tr>
+                  <tr><td class="link-cell">Camille Robert</td><td>20 min</td><td>5.2</td><td>72%</td><td>156</td><td>3.9</td><td>176</td><td><button class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0250D9"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </template>
+
+      <!-- ===== PAGE: Gestion des Connaissances ===== -->
+      <template if:true={isKnowledge}>
+        <section class="dashboard active">
+          <div class="page-title-row">
+            <h1 class="page-title">Service Insights</h1>
+            <div class="top-tabs">
+              <span class={topTabOmniClass} data-page="omni" onclick={switchPage}>Performance des Requêtes</span>
+              <span class={topTabAgentsClass} data-page="agents" onclick={switchPage}>Performance des Conseillers</span>
+              <span class={topTabKnowledgeClass} data-page="knowledge" onclick={switchPage}>Gestion des Connaissances</span>
+            </div>
+          </div>
+          <div class="filter-bar" style="flex-wrap:wrap;">
+            <span class="filter-label">Filtrer par :</span>
+            <div class="filters" style="flex-wrap:wrap;gap:12px;">
+              <div class="filter-item"><span class="filter-item-label">Date d'engagement :</span><div class="filter-combo"><span>Semaine en cours</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+              <div class="filter-item"><span class="filter-item-label">Titre article :</span><div class="filter-combo"><span>Tous les articles</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+              <div class="filter-item"><span class="filter-item-label">Langue :</span><div class="filter-combo"><span>Toutes les langues</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+              <div class="filter-item"><span class="filter-item-label">Statut article :</span><div class="filter-combo"><span>Tous les statuts</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+            </div>
+          </div>
+          <div class="section-block"><h2 class="section-heading">Vue d'ensemble</h2><p class="section-desc">Résumé généré par l'IA mettant en avant les principaux indicateurs.</p></div>
+          <div class="kpi-row">
+            <div class="kpi-metric-card">
+              <div class="kpi-mc-header"><div><span class="kpi-mc-title">Total Vues Articles</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div>
+              <div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="12323">0</span></div>
+              <span class="kpi-mc-trend trend-down-bad">-10% période vs période</span>
+              <div class="metric-dataviz"><div class="dataviz-y-axis"><span class="axis-label">14k</span><span class="axis-label">8k</span></div><div class="dataviz-baseline"></div><div class="dataviz-plot"><svg class="dataviz-chart" viewBox="0 0 174 74" preserveAspectRatio="none"><rect x="0" y="18" width="174" height="42" fill="#E3F2FF"/><polyline points="0,20 30,28 60,32 90,38 120,42 150,50 174,55" fill="none" stroke="#4992FE" stroke-width="2.5"/></svg><div class="dataviz-x-axis"><span class="axis-label">18/03</span><span class="axis-label">24/03</span></div></div><div class="dataviz-value"><div class="dataviz-baseline"></div><div class="dataviz-point-label"><span class="dataviz-dot" style="background:#06A59A"></span><span class="dataviz-val">12.3k</span></div></div></div>
+            </div>
+            <div class="kpi-metric-card">
+              <div class="kpi-mc-header"><div><span class="kpi-mc-title">Total Visiteurs Uniques</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div>
+              <div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="563">0</span></div>
+              <span class="kpi-mc-trend trend-down-bad">-10% période vs période</span>
+              <div class="metric-dataviz"><div class="dataviz-y-axis"><span class="axis-label">700</span><span class="axis-label">400</span></div><div class="dataviz-baseline"></div><div class="dataviz-plot"><svg class="dataviz-chart" viewBox="0 0 174 74" preserveAspectRatio="none"><rect x="0" y="18" width="174" height="42" fill="#E3F2FF"/><polyline points="0,22 30,30 60,35 90,40 120,48 150,52 174,58" fill="none" stroke="#4992FE" stroke-width="2.5"/></svg><div class="dataviz-x-axis"><span class="axis-label">18/03</span><span class="axis-label">24/03</span></div></div><div class="dataviz-value"><div class="dataviz-baseline"></div><div class="dataviz-point-label"><span class="dataviz-dot" style="background:#06A59A"></span><span class="dataviz-val">563</span></div></div></div>
+            </div>
+            <div class="kpi-metric-card">
+              <div class="kpi-mc-header"><div><span class="kpi-mc-title">Total Engagements</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div>
+              <div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="62235">0</span></div>
+              <span class="kpi-mc-trend trend-down-bad">-10% période vs période</span>
+              <div class="metric-dataviz"><div class="dataviz-y-axis"><span class="axis-label">70k</span><span class="axis-label">50k</span></div><div class="dataviz-baseline"></div><div class="dataviz-plot"><svg class="dataviz-chart" viewBox="0 0 174 74" preserveAspectRatio="none"><rect x="0" y="18" width="174" height="42" fill="#E3F2FF"/><polyline points="0,25 30,30 60,35 90,32 120,28 150,22 174,18" fill="none" stroke="#4992FE" stroke-width="2.5"/></svg><div class="dataviz-x-axis"><span class="axis-label">18/03</span><span class="axis-label">24/03</span></div></div><div class="dataviz-value"><div class="dataviz-baseline"></div><div class="dataviz-point-label"><span class="dataviz-dot" style="background:#06A59A"></span><span class="dataviz-val">62.2k</span></div></div></div>
+            </div>
+            <div class="kpi-metric-card">
+              <div class="kpi-mc-header"><div><span class="kpi-mc-title">Articles Engagés</span><span class="kpi-mc-sub">Semaine en cours</span></div><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></button></div>
+              <div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="12235">0</span></div>
+              <span class="kpi-mc-trend trend-down-bad">-10% période vs période</span>
+              <div class="metric-dataviz"><div class="dataviz-y-axis"><span class="axis-label">14k</span><span class="axis-label">8k</span></div><div class="dataviz-baseline"></div><div class="dataviz-plot"><svg class="dataviz-chart" viewBox="0 0 174 74" preserveAspectRatio="none"><rect x="0" y="18" width="174" height="42" fill="#E3F2FF"/><polyline points="0,55 30,48 60,42 90,35 120,28 150,20 174,15" fill="none" stroke="#4992FE" stroke-width="2.5"/></svg><div class="dataviz-x-axis"><span class="axis-label">18/03</span><span class="axis-label">24/03</span></div></div><div class="dataviz-value"><div class="dataviz-baseline"></div><div class="dataviz-point-label"><span class="dataviz-dot" style="background:#06A59A"></span><span class="dataviz-val">12.2k</span></div></div></div>
+            </div>
+          </div>
+          <div class="section-block"><h2 class="section-heading">Explorer plus</h2><p class="section-desc">Résumé généré par l'IA mettant en avant les principaux indicateurs.</p></div>
+          <div class="card card-with-header">
+            <div class="card-tab-header"><span class="card-tab-title">Explorateur de Données</span></div>
+            <div class="card-body-padded">
+              <div class="kpi-row" style="margin-bottom:24px;">
+                <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Requêtes fermées sans KB</span></div></div><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="434">0</span></div><span class="kpi-mc-trend trend-down-bad">-10%</span></div>
+                <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Requêtes fermées avec KB</span></div></div><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="1235">0</span></div><span class="kpi-mc-trend trend-down-bad">-10%</span></div>
+                <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Gain Temps Traitement Moy.</span></div></div><div class="kpi-mc-value-row"><span class="kpi-mc-value">14 mins</span></div></div>
+                <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Taux Pièces Jointes</span></div></div><div class="kpi-mc-value-row"><span class="kpi-mc-value">15.2%</span></div></div>
+              </div>
+              <div class="chart-card" style="margin-bottom:16px;"><div class="chart-card-header"><span class="chart-card-title">Requêtes avec Interactions Base de Connaissances</span></div><div class="chart-wrap" style="height:200px;"><canvas id="kbInteractionsChart"></canvas></div></div>
+              <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Temps de Traitement Moyen</span></div><div class="chart-wrap" style="height:200px;"><canvas id="avgHandleTimeChart"></canvas></div></div>
+            </div>
+          </div>
+          <div class="card card-with-header">
+            <div class="card-tab-header"><span class="card-tab-title">Explorateur de Données</span></div>
+            <div class="card-body-padded">
+              <div class="chart-card" style="margin-bottom:16px;"><div class="chart-card-header"><span class="chart-card-title">Tendance Engagements et Pièces Jointes</span></div><div class="chart-wrap" style="height:200px;"><canvas id="engagementTrendChart"></canvas></div></div>
+              <div class="three-col">
+                <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Engagement par Type Utilisateur</span></div><div class="chart-wrap" style="height:180px;"><canvas id="userTypeChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Engagement par Contexte</span></div><div class="chart-wrap" style="height:180px;"><canvas id="contextChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-card-header"><span class="chart-card-title">Engagement par Catégorie</span></div><div class="chart-wrap" style="height:180px;"><canvas id="categoryChart"></canvas></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="section-block"><h2 class="section-heading">Tableaux Détaillés</h2></div>
+          <div class="card card-with-header" style="overflow-x:auto;">
+            <div class="card-tab-header"><span class="card-tab-title">Articles de la Base de Connaissances</span></div>
+            <div style="padding:0 24px 24px;overflow-x:auto;">
+              <table class="data-table">
+                <thead><tr><th>N° Article</th><th>Titre</th><th>Total Vues</th><th>Total Consultations</th><th>Version</th><th>Créé par</th><th>Langue</th><th>Catégorie</th><th>Date Création</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td class="link-cell">001001</td><td>Procédure annulation vol</td><td>14 543</td><td>12 321</td><td>KA-0529</td><td>Adam Smith</td><td>Français</td><td>Cat 1</td><td>10/01/2025</td><td><button class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0250D9"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></td></tr>
+                  <tr><td class="link-cell">001002</td><td>Indemnisation retard EU261</td><td>23 456</td><td>21 123</td><td>KA-0522</td><td>Samantha Ad.</td><td>Français</td><td>Cat 3</td><td>10/11/2025</td><td><button class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0250D9"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></td></tr>
+                  <tr><td class="link-cell">001003</td><td>Rebooking automatique</td><td>2 121</td><td>1 112</td><td>KA-0527</td><td>Wanda Wilson</td><td>Japonais</td><td>Cat 3</td><td>11/13/2025</td><td><button class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0250D9"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></td></tr>
+                  <tr><td class="link-cell">001004</td><td>Suivi bagages perdus</td><td>1 111</td><td>876</td><td>KA-0525B</td><td>Bill South</td><td>Français</td><td>Cat 4</td><td>02/12/2024</td><td><button class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0250D9"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </template>
+
+      <!-- ===== PAGE: Customer Signals Intelligence ===== -->
+      <template if:true={isCsi}>
+        <section class="dashboard active">
+          <div class="page-title-row" style="align-items:flex-end;justify-content:space-between;">
+            <h1 class="page-title">Customer Signals Intelligence</h1>
+            <div style="display:flex;gap:16px;">
+              <div class="csi-filter-group"><span class="csi-filter-label">Source du Canal</span><div class="filter-combo"><span>Tous les Canaux</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+              <div class="csi-filter-group"><span class="csi-filter-label">Période</span><div class="filter-combo"><span>Semaine en cours</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+            </div>
+          </div>
+          <div class="csi-alert">
+            <div class="csi-alert-body">
+              <div class="csi-alert-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0250D9" style="flex-shrink:0;"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><span>Le sentiment négatif est en <span class="hl-red">hausse</span></span></div>
+              <p class="csi-alert-text">Le sentiment négatif dans les interactions clients (cas et canal de chat) a <strong>bondi de 10%</strong>. Cette hausse est directement liée à une baisse notable du sentiment global et de notre score CSAT. Traiter les problèmes liés aux Réclamations d'Annulation – Plan de Compensation est crucial pour éviter de nouvelles tendances négatives.</p>
+              <div class="csi-alert-meta"><a href="#">› Source (3)</a><span>↻ Dernière actualisation : 9/3/2024 18:04</span></div>
+            </div>
+            <div style="flex-shrink:0;"><button class="btn btn-brand" style="font-size:12px;padding:4px 14px;height:30px;gap:5px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Demander à Agentforce</button></div>
+          </div>
+          <div class="kpi-ticker">
+            <div class="kpi-metric-card kpi-highlight"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Transferts Agents</span></div></div><div class="kpi-mc-value-row"><span class="kpi-mc-value">267</span></div><span class="kpi-mc-trend trend-up-bad">+65% vs hier</span></div>
+            <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Interactions Totales</span></div></div><div class="kpi-mc-value-row"><span class="kpi-mc-value">2 900</span></div><span class="kpi-mc-trend trend-down-good">-0,79% vs semaine précédente</span></div>
+            <div class="kpi-metric-card kpi-highlight"><div class="kpi-mc-header"><div><span class="kpi-mc-title">Sentiment Négatif</span></div></div><div class="kpi-mc-value-row"><span class="kpi-mc-value" style="color:var(--negative);">32%</span></div><span class="kpi-mc-trend trend-up-bad">+10% vs semaine précédente</span></div>
+            <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">CSAT Global</span></div></div><div class="kpi-mc-value-row"><span class="kpi-mc-value">1,79</span></div><span class="kpi-mc-trend trend-down-bad">-12% vs semaine précédente</span></div>
+            <div class="kpi-metric-card"><div class="kpi-mc-header"><div><span class="kpi-mc-title">NPS Global</span></div></div><div class="kpi-mc-value-row"><span class="kpi-mc-value">71</span></div><span class="kpi-mc-trend trend-up-good">+21% vs semaine précédente</span></div>
+          </div>
+          <div class="card" style="gap:16px;">
+            <div class="section-header"><span class="section-title">Recommandations</span></div>
+            <div class="reco-row">
+              <div class="reco-card"><div class="reco-card-header"><span class="reco-title">Réclamations Annulation</span></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><span class="kpi-mc-value">30%</span><span class="sent-badge neg">Sentiment Négatif</span></div><div class="reco-trend-neg">+20% vs Semaine Précédente</div><p class="reco-desc">Les clients ne reçoivent pas suffisamment d'informations à temps concernant le remplacement de vol.</p><div class="reco-actions"><button class="btn btn-neutral" style="font-size:12px;padding:4px 12px;height:28px;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#0250D9"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Créer Incident</button><button class="btn btn-outline" style="font-size:12px;padding:4px 12px;height:28px;">Ignorer</button></div></div>
+              <div class="reco-card"><div class="reco-card-header"><span class="reco-title">Inscriptions Club Voyageur</span></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><span class="kpi-mc-value">25%</span><span class="sent-badge neu">Sentiment Neutre</span></div><div class="reco-trend-pos">+5,6% vs hier</div><p class="reco-desc">Augmentation des demandes liées aux Inscriptions Assurance de la part des Clients.</p><div class="reco-actions"><button class="btn btn-neutral" style="font-size:12px;padding:4px 12px;height:28px;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#0250D9"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Demander à Agentforce</button><button class="btn btn-outline" style="font-size:12px;padding:4px 12px;height:28px;">Ignorer</button></div></div>
+              <div class="reco-card"><div class="reco-card-header"><span class="reco-title">Bagages Endommagés</span></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><span class="kpi-mc-value">8%</span><span class="sent-badge pos">Sentiment Positif</span></div><div class="reco-trend-pos">+8,6% vs Semaine Précédente</div><p class="reco-desc">Ce sujet regroupe les Dommages Accidentels avec des problèmes tels que les dommages liquides.</p><div class="reco-actions"><button class="btn btn-neutral" style="font-size:12px;padding:4px 12px;height:28px;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#0250D9"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Demander à Agentforce</button><button class="btn btn-outline" style="font-size:12px;padding:4px 12px;height:28px;">Ignorer</button></div></div>
+            </div>
+          </div>
+          <div class="card" style="gap:20px;">
+            <h2 class="section-title">Analyse Globale du Sentiment</h2>
+            <div class="sentiment-grid">
+              <div class="sentiment-col"><span class="col-title">Sentiment Global par Réponses</span><div class="chart-wrap" style="height:200px;"><canvas id="csiSentimentDonut"></canvas></div></div>
+              <div class="sentiment-col" style="flex:2;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+                  <span class="col-title">Sentiment Client par Clusters</span>
+                  <div class="cluster-tabs">
+                    <span class="cluster-tab active">Clusters</span>
+                    <span class="cluster-tab">Motifs Contact</span>
+                    <span class="cluster-tab">Produit</span>
+                    <span class="cluster-tab">Entité</span>
+                    <span class="cluster-tab">Expression Clé</span>
+                  </div>
+                </div>
+                <div class="chart-wrap" style="height:220px;"><canvas id="csiClustersChart"></canvas></div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="gap:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <span class="section-title">Expressions Clés Principales</span>
+              <div class="phrase-legend">
+                <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:#F88;display:inline-block;"></span>Sentiments Négatifs</span>
+                <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:#4CC;display:inline-block;"></span>Sentiments Positifs</span>
+              </div>
+            </div>
+            <div class="phrase-cloud">
+              <span class="phrase-tag phrase-neg">Temps d'attente service (4 300)</span><span class="phrase-tag phrase-pos">Bagage non fonctionnel (3 500)</span><span class="phrase-tag phrase-pos">Fusion de comptes (4 200)</span><span class="phrase-tag phrase-neg">Frais provisoires (2 500)</span><span class="phrase-tag phrase-neg">Identifiants manquants (3 500)</span><span class="phrase-tag phrase-pos">Mise à jour compte (3 500)</span><span class="phrase-tag phrase-neg">Statut voyageur (2 800)</span><span class="phrase-tag phrase-pos">Dommage inventaire (1 900)</span><span class="phrase-tag phrase-pos">Compensation annulation (1 130)</span><span class="phrase-tag phrase-neg">Reprogrammation vol (1 298)</span>
+            </div>
+          </div>
+        </section>
+      </template>
+
+      <!-- ===== PAGE: Knowledge Intelligence ===== -->
+      <template if:true={isKi}>
+        <section class="dashboard active">
+          <div class="page-title-row">
+            <h1 class="page-title">Knowledge Intelligence</h1>
+            <div class="top-tabs">
+              <span class={topTabKiOverviewClass} data-page="ki" onclick={switchPage}>Overview</span>
+              <span class={topTabCriClass} data-page="cri" onclick={switchPage}>Contact Reason Intelligence</span>
+            </div>
+          </div>
+          <div class="filter-bar"><span class="filter-label">Filtrer par :</span><div class="filters"><div class="filter-item"><span class="filter-item-label">Période :</span><div class="filter-combo"><span>Semaine en cours</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div><div class="filter-item"><span class="filter-item-label">Type d'article :</span><div class="filter-combo"><span>Tous les types</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div><div class="filter-item"><span class="filter-item-label">Canal :</span><div class="filter-combo"><span>Tous les canaux</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div></div></div>
+          <div class="csi-alert">
+            <div><div class="csi-alert-title"><span>Les lacunes de la base de connaissances sont en <span class="hl-red">forte hausse</span></span></div><div class="csi-alert-text">Les articles sans réponse ont bondi de 189% suite à la tempête de neige à New York (JFK/LGA/EWR). <strong>3 lacunes critiques identifiées.</strong></div></div>
+          </div>
+          <div class="kpi-ticker">
+            <div class="kpi-metric-card"><span class="kpi-mc-title">Articles Consultés</span><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="12430">0</span></div><span class="kpi-mc-trend trend-up-bad">+312% vs sem. précédente</span></div>
+            <div class="kpi-metric-card"><span class="kpi-mc-title">Requêtes de Recherche</span><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="8950">0</span></div><span class="kpi-mc-trend trend-up-bad">+245% vs sem. précédente</span></div>
+            <div class="kpi-metric-card kpi-highlight"><span class="kpi-mc-title">Taux de Déflexion</span><div class="kpi-mc-value-row"><span class="kpi-mc-value">28%</span></div><span class="kpi-mc-trend trend-down-bad">-38% vs sem. précédente</span></div>
+            <div class="kpi-metric-card kpi-highlight"><span class="kpi-mc-title">Articles sans Réponse</span><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="1247">0</span></div><span class="kpi-mc-trend trend-up-bad">+189% vs sem. précédente</span></div>
+            <div class="kpi-metric-card"><span class="kpi-mc-title">CSAT post-KB</span><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="2.8" data-decimal="true">0</span></div><span class="kpi-mc-trend trend-down-bad">-31% vs sem. précédente</span></div>
+          </div>
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><h2 class="section-title">Lacunes Détectées — Recommandations</h2><button class="btn btn-neutral" style="font-size:12px;padding:4px 14px;height:30px;gap:5px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#0250D9"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Demander à Agentforce</button></div>
+            <div class="reco-row">
+              <div class="reco-card"><div class="reco-card-header"><span class="reco-title">Annulation Vols JFK / LGA</span></div><div style="display:flex;align-items:center;gap:12px;"><span class="kpi-mc-value">42%</span><span class="sent-badge neg">Lacune Critique</span></div><div class="reco-trend-neg">+192% recherches sans réponse</div><p class="reco-desc">Aucun article ne couvre la procédure complète d'annulation pour cause météo (JFK/LGA/EWR).</p><div class="reco-actions"><button class="btn btn-neutral" style="font-size:12px;padding:4px 12px;height:28px;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#0250D9"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Générer l'article</button><button class="btn btn-outline" style="font-size:12px;padding:4px 12px;height:28px;">Planifier</button></div></div>
+              <div class="reco-card"><div class="reco-card-header"><span class="reco-title">Politique de Remboursement</span></div><div style="display:flex;align-items:center;gap:12px;"><span class="kpi-mc-value">31%</span><span class="sent-badge neg">Contenu Obsolète</span></div><div class="reco-trend-neg">+145% requêtes non satisfaites</div><p class="reco-desc">Les articles actuels sur les remboursements datent de plus de 18 mois. Les nouveaux délais réglementaires ne sont pas documentés.</p><div class="reco-actions"><button class="btn btn-neutral" style="font-size:12px;padding:4px 12px;height:28px;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#0250D9"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Générer l'article</button><button class="btn btn-outline" style="font-size:12px;padding:4px 12px;height:28px;">Planifier</button></div></div>
+              <div class="reco-card"><div class="reco-card-header"><span class="reco-title">Compensation Retard &gt; 3h</span></div><div style="display:flex;align-items:center;gap:12px;"><span class="kpi-mc-value">27%</span><span class="sent-badge neg">Article Manquant</span></div><div class="reco-trend-neg">+87% recherches cette semaine</div><p class="reco-desc">Aucun article dédié à la réglementation EU261/2004 et aux droits passagers pour retards &gt; 3h.</p><div class="reco-actions"><button class="btn btn-neutral" style="font-size:12px;padding:4px 12px;height:28px;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#0250D9"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Générer l'article</button><button class="btn btn-outline" style="font-size:12px;padding:4px 12px;height:28px;">Planifier</button></div></div>
+            </div>
+          </div>
+          <div class="card" style="gap:20px;">
+            <h2 class="section-title">Analyse du Sentiment — Base de Connaissances</h2>
+            <div class="sentiment-grid">
+              <div class="sentiment-col"><span class="col-title">Satisfaction par Type d'Article</span><div class="chart-wrap" style="height:200px;"><canvas id="kiSentimentDonut"></canvas></div></div>
+              <div class="sentiment-col" style="flex:2;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+                  <span class="col-title">Utilité des Articles par Thème</span>
+                  <div class="cluster-tabs">
+                    <span class="ki-cluster-tab active">Thèmes KB</span>
+                    <span class="ki-cluster-tab">Catégorie Article</span>
+                    <span class="ki-cluster-tab">Type de Contenu</span>
+                    <span class="ki-cluster-tab">Canal d'Accès</span>
+                  </div>
+                </div>
+                <div class="chart-wrap" style="height:220px;"><canvas id="kiClustersChart"></canvas></div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="gap:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <span class="section-title">Requêtes de Recherche Principales</span>
+              <div class="phrase-legend">
+                <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:#F88;display:inline-block;"></span>Sans réponse KB</span>
+                <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:#4CC;display:inline-block;"></span>Réponse trouvée</span>
+              </div>
+            </div>
+            <div class="phrase-cloud">
+              <span class="phrase-tag phrase-neg">annulation vol JFK tempête (3 812)</span><span class="phrase-tag phrase-neg">procédure remboursement billet (2 940)</span><span class="phrase-tag phrase-neg">compensation retard 3h (2 615)</span><span class="phrase-tag phrase-neg">bagage perdu correspondance (2 187)</span><span class="phrase-tag phrase-pos">modifier réservation en ligne (1 834)</span><span class="phrase-tag phrase-neg">politique météo annulation (1 620)</span><span class="phrase-tag phrase-neg">droits passagers EU261 (1 455)</span><span class="phrase-tag phrase-pos">rembourser avec miles (1 320)</span>
+            </div>
+            <p style="font-size:12px;color:var(--on-surface-1);line-height:18px;">62% des requêtes de recherche cette semaine ne trouvent pas de réponse satisfaisante dans la base de connaissances.</p>
+          </div>
+        </section>
+      </template>
+
+      <!-- ===== PAGE: Contact Reason Intelligence ===== -->
+      <template if:true={isCri}>
+        <section class="dashboard active">
+          <div class="page-title-row">
+            <h1 class="page-title">Contact Reason Intelligence</h1>
+            <div class="top-tabs">
+              <span class={topTabKiOverviewClass} data-page="ki" onclick={switchPage}>Overview</span>
+              <span class={topTabCriClass} data-page="cri" onclick={switchPage}>Contact Reason Intelligence</span>
+            </div>
+          </div>
+          <div class="cri-filter-bar">
+            <div class="csi-filter-group"><span class="csi-filter-label">Source du Canal</span><div class="filter-combo" style="min-width:140px;"><span>Tous les canaux</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+            <div class="csi-filter-group"><span class="csi-filter-label">Période Actuelle</span><div class="filter-combo" style="min-width:140px;"><span>Semaine en cours</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+            <div class="csi-filter-group"><span class="csi-filter-label">Comparer à</span><div class="filter-combo" style="min-width:140px;"><span>Semaine précédente</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+            <div class="csi-filter-group"><span class="csi-filter-label">Langue</span><div class="filter-combo" style="min-width:110px;"><span>Français</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#5C5C5C"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+          </div>
+          <div class="card">
+            <h2 class="section-title" style="margin-bottom:16px;">Indicateurs Clés</h2>
+            <div class="kpi-ticker">
+              <div class="kpi-metric-card"><span class="kpi-mc-title">Motifs de Contact</span><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="247">0</span></div><span class="kpi-mc-trend trend-up-bad">+5% période vs période</span></div>
+              <div class="kpi-metric-card"><span class="kpi-mc-title">Total Interactions Service</span><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="4850">0</span></div><span class="kpi-mc-trend trend-up-bad">+5% période vs période</span></div>
+              <div class="kpi-metric-card kpi-highlight"><span class="kpi-mc-title">Score Couverture KB</span><div class="kpi-mc-value-row"><span class="kpi-mc-value" data-target="38">0</span></div><span class="kpi-mc-trend trend-down-bad">-22% période vs période</span></div>
+              <div class="kpi-metric-card"><span class="kpi-mc-title">Sentiment Mixte Moyen</span><div class="kpi-mc-value-row"><span class="kpi-mc-value">22%</span></div><span class="kpi-mc-trend trend-up-bad">+10% période vs période</span></div>
+              <div class="kpi-metric-card kpi-highlight"><span class="kpi-mc-title">Sentiment Négatif Moyen</span><div class="kpi-mc-value-row"><span class="kpi-mc-value">47%</span></div><span class="kpi-mc-trend trend-up-bad">+10% période vs période</span></div>
+              <div class="kpi-metric-card"><span class="kpi-mc-title">Sentiment Positif Moyen</span><div class="kpi-mc-value-row"><span class="kpi-mc-value">31%</span></div><span class="kpi-mc-trend trend-down-bad">-10% période vs période</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <h2 class="section-title" style="margin-bottom:16px;">Analyse des Motifs de Contact</h2>
+            <div style="display:flex;gap:20px;align-items:flex-start;">
+              <div style="flex:1.1;min-width:0;display:flex;flex-direction:column;gap:24px;">
+                <div>
+                  <span class="col-title" style="display:block;margin-bottom:8px;">Motif Contact par Couverture KB</span>
+                  <div style="display:flex;gap:12px;margin-bottom:8px;">
+                    <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--on-surface-2);"><span style="width:8px;height:8px;border-radius:50%;background:#FE5C4C;display:inline-block;"></span>Négatif</span>
+                    <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--on-surface-2);"><span style="width:8px;height:8px;border-radius:50%;background:#FE8F1D;display:inline-block;"></span>Mixte</span>
+                    <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--on-surface-2);"><span style="width:8px;height:8px;border-radius:50%;background:#06A59A;display:inline-block;"></span>Positif</span>
+                  </div>
+                  <div class="chart-wrap" style="height:170px;"><canvas id="criKbChart"></canvas></div>
+                </div>
+                <div>
+                  <span class="col-title" style="display:block;margin-bottom:8px;">Motif Contact par Volume</span>
+                  <div class="chart-wrap" style="height:170px;"><canvas id="criVolChart"></canvas></div>
+                </div>
+              </div>
+              <div style="flex:2;min-width:0;display:flex;flex-direction:column;gap:12px;">
+                <span style="display:flex;align-items:center;gap:6px;">
+                  <span class="col-title">Motif Contact par Score Couverture KB et Volume</span>
+                  <span class="kb-tooltip-anchor"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="#5C5C5C" stroke-width="1.5"/><path d="M12 11v6" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1" fill="#5C5C5C"/></svg><div class="kb-tooltip-box">Le Score de Couverture KB (sur 100) indique dans quelle mesure vos articles répondent aux besoins clients — un score élevé signifie moins de lacunes, tandis qu'un score faible révèle des questions fréquentes sur des sujets mal couverts.</div></span>
+                </span>
+                <div class="chart-wrap" style="height:280px;"><canvas id="criBubbleChart"></canvas></div>
+                <div class="cri-legend">
+                  <span class="cri-legend-item"><span class="cri-legend-dot" style="background:#06A59A;"></span>Annulation vol</span>
+                  <span class="cri-legend-item"><span class="cri-legend-dot" style="background:#4992FE;"></span>Remboursement billet</span>
+                  <span class="cri-legend-item"><span class="cri-legend-dot" style="background:#BA01FF;"></span>Bagage perdu/retardé</span>
+                  <span class="cri-legend-item"><span class="cri-legend-dot" style="background:#FE8F1D;"></span>Modification réservation</span>
+                  <span class="cri-legend-item"><span class="cri-legend-dot" style="background:#FE5C4C;"></span>Indemnisation retard</span>
+                </div>
+                <div class="cri-agentforce-hint" style="flex-direction:column;align-items:stretch;gap:10px;">
+                  <div style="display:flex;align-items:flex-start;gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0250D9" style="flex-shrink:0;margin-top:2px;"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><span>Résumé Agentforce : Malgré un usage massif de "Condition d'indemnisation exclusives pour les perturbations météorologiques", l'article n'a pas permis de couvrir les problématiques associées.</span></div>
+                  <div style="display:flex;justify-content:flex-end;"><button class="btn btn-neutral" onclick={openAgentforcePanel} style="font-size:12px;padding:4px 12px;height:28px;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#0250D9"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Editer avec Agentforce</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h2 class="section-title" style="margin-bottom:16px;">Motifs de Contact</h2>
+            <table class="data-table">
+              <thead><tr><th>Motif de Contact</th><th>Score Couverture KB</th><th>Volume</th><th>Cas</th></tr></thead>
+              <tbody>
+                <tr><td class="link-cell">Annulation vol</td><td>22</td><td>4 812</td><td><button class="btn-link">Voir Enregistrement</button></td></tr>
+                <tr><td class="link-cell">Remboursement billet</td><td>38</td><td>3 240</td><td><button class="btn-link">Voir Enregistrement</button></td></tr>
+                <tr><td class="link-cell">Bagage perdu/retardé</td><td>15</td><td>2 180</td><td><button class="btn-link">Voir Enregistrement</button></td></tr>
+                <tr><td class="link-cell">Modification réservation</td><td>71</td><td>1 650</td><td><button class="btn-link">Voir Enregistrement</button></td></tr>
+                <tr><td class="link-cell">Indemnisation retard &gt; 3h</td><td>20</td><td>4 600</td><td><button class="btn-link">Voir Enregistrement</button></td></tr>
+                <tr><td class="link-cell">Surréservation vol</td><td>44</td><td>847</td><td><button class="btn-link">Voir Enregistrement</button></td></tr>
+                <tr><td class="link-cell">Remboursement Miles</td><td>58</td><td>612</td><td><button class="btn-link">Voir Enregistrement</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </template>
+
+    </div>
+  </main>
+
+  <!-- ===== AGENTFORCE PANEL ===== -->
+  <div class={afPanelClass} id="agentforcePanel">
+    <div class="af-panel-header">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="af-panel-title">Agentforce</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#0250D9"/><path d="M12 11v6" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1" fill="white"/></svg>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="cursor:pointer;" onclick={closeAgentforcePanel}>
+          <line x1="18" y1="6" x2="6" y2="18" stroke="#0250D9" stroke-width="2" stroke-linecap="round"/>
+          <line x1="6" y1="6" x2="18" y2="18" stroke="#0250D9" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="af-panel-divider"></div>
+    <div class="af-panel-body" id="afMessages"></div>
+    <div class="af-panel-footer">
+      <div class="af-input-wrap">
+        <textarea class="af-input" id="afInput" placeholder="Posez votre question..." rows="2" onkeydown={handleAfKeydown}></textarea>
+        <button class="af-send-btn" onclick={handleAfSend}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="#0250D9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</template>

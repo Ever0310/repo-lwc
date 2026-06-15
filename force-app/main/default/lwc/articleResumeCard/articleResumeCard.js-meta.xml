@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Résumé d'article</masterLabel>
+    <description>Carte de résumé d'article avec vote « Est-ce utile ? » et actions (ticket, rendement) pour Experience Cloud.</description>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage,lightning__HomePage">
+            <property
+                name="bodyText"
+                type="String"
+                label="Texte du résumé"
+                description="Contenu principal affiché dans la carte."
+                default="Le VoltBrain 5000 optimise votre solaire via le Rapid MPPT Scanning, ajustant le voltage toutes les 500 ms. Si le voyant clignote orange, patientez deux minutes de synchronisation. En cas d'arrêt au soleil, vérifiez le disjoncteur DC/AC. Malgré cette technologie, des obstacles fixes peuvent nécessiter l'ajout d'optimiseurs de puissance."
+            />
+            <property
+                name="ticketUrl"
+                type="String"
+                label="URL — Ouvrir un ticket"
+                description="Optionnel. Si renseigné, redirection navigateur au clic (ex. page du portail ou formulaire)."
+            />
+            <property
+                name="analyzeUrl"
+                type="String"
+                label="URL — Analyser mon rendement"
+                description="Optionnel. Si renseigné, redirection navigateur au clic."
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

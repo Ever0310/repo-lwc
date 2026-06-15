@@ -1,0 +1,412 @@
+<template>
+    <!-- ===== HEADER ===== -->
+    <header class="ks-header">
+        <div class="ks-header__inner">
+
+            <button class="ks-nav-trigger" onclick={toggleNav} aria-expanded={navOpen} aria-controls="ks-nav-panel" aria-label="Menu">
+                <span class={hamburgerClass}></span>
+                <span class={hamburgerClass}></span>
+                <span class={hamburgerClass}></span>
+            </button>
+
+            <div class="ks-logo" onclick={handleBackHome} role="button" tabindex="0" aria-label="Kérastase Paris – Accueil">
+                <img src={logoUrl} alt="Kérastase Paris" class="ks-logo__img" />
+            </div>
+
+            <div class="ks-header__actions">
+                <!-- Pastille Bonjour JC -->
+                <button class="ks-welcome-pill" aria-label="Mon compte — Jean-Christophe" onclick={handleAccountClick}>
+                    <img src={userJcUrl} alt="Jean-Christophe" class="ks-welcome-pill__avatar" />
+                    <span class="ks-welcome-pill__dot" aria-hidden="true"></span>
+                    <span class="ks-welcome-pill__text">Bonjour <strong>Jean-Christophe</strong> 👋</span>
+                </button>
+                <button class="ks-icon-btn" aria-label="Panier" onclick={handleCartClick}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 01-8 0"/>
+                    </svg>
+                    <template if:true={cartCount}>
+                        <span class="ks-cart-badge">{cartCount}</span>
+                    </template>
+                </button>
+            </div>
+        </div>
+
+        <!-- Dropdown nav -->
+        <nav id="ks-nav-panel" class={navPanelClass} aria-label="Navigation principale" aria-hidden={navHidden}>
+            <ul class="ks-nav__list">
+                <li class="ks-nav__item"><button class="ks-nav__link" onclick={handleNavCategory} data-query="mes commandes">Mes commandes</button></li>
+                <li class="ks-nav__item"><button class="ks-nav__link" onclick={handleNavCategory} data-query="mes requêtes">Mes requêtes</button></li>
+                <li class="ks-nav__item"><button class="ks-nav__link" onclick={handleNavCategory} data-query="base de connaissance">Base de connaissance</button></li>
+                <li class="ks-nav__item"><button class="ks-nav__link" onclick={handleNavCategory} data-query="catalogue">Notre catalogue</button></li>
+                <li class="ks-nav__item"><button class="ks-nav__link" onclick={handleNavCategory} data-query="contact">Nous contacter</button></li>
+                <li class="ks-nav__item"><button class="ks-nav__link ks-nav__link--gold" onclick={handleNavCategory} data-query="nouveautés">Nouveautés</button></li>
+            </ul>
+        </nav>
+
+        <template if:true={navOpen}>
+            <div class="ks-nav-overlay" onclick={toggleNav} aria-hidden="true"></div>
+        </template>
+    </header>
+
+    <!-- ===== LOADING ===== -->
+    <template if:true={isLoading}>
+        <div class="ks-loading" aria-live="polite" aria-label="Chargement en cours">
+            <div class="ks-loading__bar"></div>
+            <div class="ks-loading__content">
+                <img src={logoUrl} alt="Kérastase Paris" class="ks-loading__logo" />
+                <p class="ks-loading__text">Recherche en cours…</p>
+                <div class="ks-loading__dots" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- ===== HOME ===== -->
+    <template if:true={showHome}>
+        <main class="ks-main">
+
+            <!-- HERO -->
+            <section class="ks-hero" aria-labelledby="ks-hero-title">
+                <div class="ks-hero__bg" style={heroBgStyle} aria-hidden="true"></div>
+                <div class="ks-hero__overlay" aria-hidden="true"></div>
+                <div class="ks-hero__content">
+                    <p class="ks-hero__eyebrow">L'expertise capillaire depuis 1964</p>
+                    <h1 id="ks-hero-title" class="ks-hero__title">Le luxe au service<br/>de vos cheveux</h1>
+                    <p class="ks-hero__subtitle">Des formules d'exception, conçues avec les meilleurs instituts capillaires du monde</p>
+
+                    <form class="ks-search" onsubmit={handleSearch} role="search">
+                        <label for="ks-product-search" class="ks-sr-only">Rechercher un soin</label>
+                        <div class="ks-search__wrapper">
+                            <svg class="ks-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input
+                                id="ks-product-search"
+                                type="search"
+                                class="ks-search__input"
+                                placeholder="Ex : shampoing anti-chute, masque hydratant…"
+                                value={searchQuery}
+                                oninput={handleSearchInput}
+                                autocomplete="off"
+                                aria-label="Rechercher un soin Kérastase"
+                            />
+                            <button type="submit" class="ks-search__btn">Rechercher</button>
+                        </div>
+                        <ul class="ks-search__chips" aria-label="Recherches populaires">
+                            <li><button type="button" class="ks-chip" onclick={handleChipClick} data-query="shampoing anti-chute">shampoing anti-chute</button></li>
+                            <li><button type="button" class="ks-chip" onclick={handleChipClick} data-query="sérum hydratant">sérum hydratant</button></li>
+                            <li><button type="button" class="ks-chip" onclick={handleChipClick} data-query="routine homme">routine homme</button></li>
+                            <li><button type="button" class="ks-chip" onclick={handleChipClick} data-query="huile légèreté">huile légèreté</button></li>
+                        </ul>
+                    </form>
+                </div>
+            </section>
+
+            <!-- BESTSELLERS -->
+            <section class="ks-featured" aria-labelledby="ks-feat-title">
+                <div class="ks-section-header">
+                    <p class="ks-section-eyebrow">Sélection</p>
+                    <h2 id="ks-feat-title" class="ks-section-title">Nos bestsellers</h2>
+                </div>
+                <div class="ks-carousel">
+                    <button class="ks-carousel__arrow ks-carousel__arrow--prev" onclick={handleFeaturedPrev} aria-label="Précédent">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <ul class="ks-products__grid" role="list">
+                        <template for:each={featuredCarouselProducts} for:item="product">
+                            <li key={product.carouselKey} class="ks-product-card">
+                                <button class="ks-product-card__inner" onclick={handleProductClick} data-id={product.id}>
+                                    <div class="ks-product-card__img-wrap">
+                                        <template if:true={product.imgUrl}>
+                                            <img src={product.imgUrl} alt={product.name} class="ks-product-card__photo" loading="lazy" />
+                                        </template>
+                                        <template if:false={product.imgUrl}>
+                                            <div class="ks-product-card__img" style={product.bgStyle} aria-hidden="true"></div>
+                                        </template>
+                                        <template if:true={product.badge}>
+                                            <span class="ks-product-card__badge">{product.badge}</span>
+                                        </template>
+                                    </div>
+                                    <div class="ks-product-card__info">
+                                        <p class="ks-product-card__range">{product.range}</p>
+                                        <p class="ks-product-card__name">{product.name}</p>
+                                        <p class="ks-product-card__price">{product.price}</p>
+                                    </div>
+                                </button>
+                            </li>
+                        </template>
+                    </ul>
+                    <button class="ks-carousel__arrow ks-carousel__arrow--next" onclick={handleFeaturedNext} aria-label="Suivant">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- EDITORIAL STRIP -->
+            <section class="ks-editorial" aria-labelledby="ks-ed-title">
+                <div class="ks-editorial__inner">
+                    <p class="ks-section-eyebrow ks-section-eyebrow--light">Notre philosophie</p>
+                    <h2 id="ks-ed-title" class="ks-editorial__title">Le diagnostic<br/>capillaire sur mesure</h2>
+                    <p class="ks-editorial__body">Chaque chevelure est unique. Nos agents experts analysent votre profil capillaire pour vous recommander le rituel Kérastase idéal.</p>
+                    <button class="ks-btn-outline" onclick={handleChipClick} data-query="diagnostic cheveux">Découvrir</button>
+                </div>
+            </section>
+        </main>
+    </template>
+
+    <!-- ===== RÉSULTATS ===== -->
+    <template if:true={showResults}>
+        <main class="ks-main ks-main--results">
+            <div class="ks-results-header">
+                <button class="ks-back-btn" onclick={handleBackHome}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Retour
+                </button>
+                <h1 class="ks-results-title">Résultats pour <em>"{searchQuery}"</em></h1>
+                <p class="ks-results-count">{resultsCount} produits trouvés</p>
+            </div>
+
+            <!-- GRILLE PRODUITS — en premier -->
+            <div class="ks-carousel ks-carousel--results">
+                <button class="ks-carousel__arrow ks-carousel__arrow--prev" onclick={handleResultsPrev} aria-label="Précédent">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <ul class="ks-products__grid ks-products__grid--results" role="list">
+                    <template for:each={resultsCarouselProducts} for:item="product">
+                        <li key={product.carouselKey} class="ks-product-card">
+                            <button class="ks-product-card__inner" onclick={handleProductClick} data-id={product.id}>
+                                <div class="ks-product-card__img-wrap">
+                                    <template if:true={product.imgUrl}>
+                                        <img src={product.imgUrl} alt={product.name} class="ks-product-card__photo" loading="lazy" />
+                                    </template>
+                                    <template if:false={product.imgUrl}>
+                                        <div class="ks-product-card__img" style={product.bgStyle} aria-hidden="true"></div>
+                                    </template>
+                                    <template if:true={product.badge}>
+                                        <span class="ks-product-card__badge">{product.badge}</span>
+                                    </template>
+                                </div>
+                                <div class="ks-product-card__info">
+                                    <p class="ks-product-card__range">{product.range}</p>
+                                    <p class="ks-product-card__name">{product.name}</p>
+                                    <p class="ks-product-card__price">{product.price}</p>
+                                </div>
+                            </button>
+                        </li>
+                    </template>
+                </ul>
+                <button class="ks-carousel__arrow ks-carousel__arrow--next" onclick={handleResultsNext} aria-label="Suivant">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>
+
+            <!-- AGENT KÉRAFORCE — en dessous des produits -->
+            <template if:true={showAgentChat}>
+                <div class="ks-agent-panel" role="complementary" aria-label="Conseiller Kéraforce">
+                    <div class="ks-agent-panel__inner">
+                        <div class="ks-agent-header">
+                            <div class="ks-agent-avatar" aria-hidden="true">
+                                <img src={agentAvatarUrl} alt="" class="ks-agent-avatar__img" />
+                            </div>
+                            <div class="ks-agent-identity">
+                                <span class="ks-agent-name">Kéraforce · Expert Kérastase</span>
+                                <span class="ks-agent-badge">Agentforce Headless · IA capillaire</span>
+                            </div>
+                            <div class="ks-agent-status" aria-hidden="true">
+                                <span class="ks-agent-status__dot"></span>
+                                <span class="ks-agent-status__label">En ligne</span>
+                            </div>
+                        </div>
+
+                        <div class="ks-agent-messages" aria-live="polite">
+                            <template for:each={agentMessages} for:item="msg">
+                                <div key={msg.id} class={msg.cssClass}>
+                                    <p class="ks-msg__text">{msg.text}</p>
+                                </div>
+                            </template>
+                        </div>
+
+                        <template if:true={showQualificationQuestion}>
+                            <div class="ks-agent-question">
+                                <p class="ks-agent-question__text">{currentQuestion.text}</p>
+                                <ul class="ks-agent-question__options" role="list">
+                                    <template for:each={currentQuestion.options} for:item="opt">
+                                        <li key={opt.id}>
+                                            <button class="ks-option-btn" onclick={handleAnswerSelect} data-question={currentQuestion.id} data-answer={opt.id}>{opt.label}</button>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </template>
+
+                        <template if:true={showRecommendation}>
+                            <div class="ks-recommendation">
+                                <p class="ks-recommendation__intro">Sur la base de votre profil, Kéraforce vous recommande :</p>
+                                <div class="ks-rec-product" onclick={handleProductClick} data-id="rec-1" role="button" tabindex="0">
+                                    <img src={bainMasseUrl} alt="Bain de Masse Épaississant" class="ks-rec-product__img" />
+                                    <div class="ks-rec-product__info">
+                                        <p class="ks-rec-product__range">GENESIS HOMME</p>
+                                        <p class="ks-rec-product__name">Bain de Masse Épaississant</p>
+                                        <p class="ks-rec-product__price">32,80 €</p>
+                                        <button class="ks-btn-primary ks-btn--sm" onclick={handleViewProduct} data-id="rec-1">Voir la fiche produit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </main>
+    </template>
+
+    <!-- ===== FICHE PRODUIT ===== -->
+    <template if:true={showProduct}>
+        <main class="ks-main ks-main--product">
+            <div class="ks-product-page">
+                <button class="ks-back-btn" onclick={handleBackResults}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Retour aux résultats
+                </button>
+
+                <div class="ks-product-detail">
+                    <div class="ks-product-detail__gallery">
+                        <div class="ks-product-detail__main-img-wrap">
+                            <button class="ks-thumb-zoom" onclick={handleMainImgClick} aria-label="Agrandir l'image">
+                                <img src={displayProductImgUrl} alt="Genesis Homme Bain de Masse Épaississant" class="ks-product-detail__main-img" />
+                                <span class="ks-thumb-zoom__icon" aria-hidden="true">&#x26F6;</span>
+                            </button>
+                        </div>
+                        <ul class="ks-product-detail__thumbs" aria-label="Vues du produit">
+                            <li class="ks-thumb">
+                                <button class="ks-thumb-btn" onclick={handleThumbClick} data-src={gallery1Url} aria-label="Vue 1">
+                                    <img src={gallery1Url} alt="" class="ks-thumb__img" aria-hidden="true" />
+                                </button>
+                            </li>
+                            <li class="ks-thumb">
+                                <button class="ks-thumb-btn" onclick={handleThumbClick} data-src={gallery2Url} aria-label="Vue 2">
+                                    <img src={gallery2Url} alt="" class="ks-thumb__img" aria-hidden="true" />
+                                </button>
+                            </li>
+                            <li class="ks-thumb">
+                                <button class="ks-thumb-btn" onclick={handleThumbClick} data-src={gallery3Url} aria-label="Vue 3">
+                                    <img src={gallery3Url} alt="" class="ks-thumb__img" aria-hidden="true" />
+                                </button>
+                            </li>
+                            <li class="ks-thumb">
+                                <button class="ks-thumb-btn" onclick={handleThumbClick} data-src={gallery4Url} aria-label="Vue 4">
+                                    <img src={gallery4Url} alt="" class="ks-thumb__img" aria-hidden="true" />
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ks-product-detail__content">
+                        <p class="ks-product-detail__range">GENESIS HOMME</p>
+                        <h1 class="ks-product-detail__name">{selectedProduct.name}</h1>
+                        <span class="ks-stock-badge" aria-label="En stock">● En stock</span>
+                        <p class="ks-product-detail__subtitle">Shampoing booster d'épaisseur destiné aux cheveux affaiblis ayant tendance à s'affiner.</p>
+                        <div class="ks-product-detail__rating" aria-label="4,9 étoiles sur 5">
+                            <span class="ks-stars" aria-hidden="true">★★★★★</span>
+                            <span class="ks-rating-count">(3 214 avis)</span>
+                        </div>
+                        <p class="ks-product-detail__price">{selectedProduct.price}</p>
+                        <p class="ks-product-detail__volume">250 ml &nbsp;·&nbsp; 32,80 € &nbsp;·&nbsp; <span class="ks-product-detail__unit">(13,12 €/100 ml.)</span></p>
+                        <p class="ks-product-detail__desc">
+                            Formulé avec de la Créatine et de la Racine de Gingembre, ce shampooing booster
+                            renforce la fibre capillaire dès le premier lavage et réduit la chute des cheveux fragilisés.
+                        </p>
+                        <div class="ks-product-detail__actions">
+                            <div class="ks-qty-selector" role="group" aria-label="Quantité">
+                                <button class="ks-qty-btn" onclick={decrementQty} aria-label="Diminuer">−</button>
+                                <span class="ks-qty-value" aria-live="polite">{quantity}</span>
+                                <button class="ks-qty-btn" onclick={incrementQty} aria-label="Augmenter">+</button>
+                            </div>
+                            <button class="ks-btn-primary ks-btn--add" onclick={handleAddToCart}>
+                                Commander en un clic · {selectedProduct.price}
+                            </button>
+                        </div>
+                        <div class="ks-cc-badge" role="note">
+                            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                                <path d="M14 2H2C1.45 2 1 2.45 1 3v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 10H3V4h10v8z"/>
+                            </svg>
+                            Tunnel Salesforce Commerce Cloud · Commande sur kerastase.fr
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LIGHTBOX -->
+                <template if:true={showLightbox}>
+                    <div class="ks-lightbox" role="dialog" aria-modal="true" aria-label="Vue agrandie" onclick={handleLightboxClose} onkeydown={handleLightboxKey}>
+                        <button class="ks-lightbox__close" onclick={handleLightboxClose} aria-label="Fermer">✕</button>
+                        <img src={lightboxUrl} alt="" class="ks-lightbox__img" />
+                    </div>
+                </template>
+            </div>
+        </main>
+    </template>
+
+    <!-- ===== CONFIRMATION ===== -->
+    <template if:true={showConfirmation}>
+        <main class="ks-main ks-main--confirmation">
+            <div class="ks-confirmation">
+                <div class="ks-confirmation__icon" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" fill="none">
+                        <circle cx="32" cy="32" r="32" fill="#1a2f3d"/>
+                        <polyline points="20,34 28,42 44,24" stroke="#c8a96e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <img src={logoUrl} alt="Kérastase Paris" class="ks-confirmation__logo" />
+                <h1 class="ks-confirmation__title">Commande confirmée</h1>
+                <p class="ks-confirmation__order">Commande n° <strong>{orderNumber}</strong></p>
+                <p class="ks-confirmation__msg">
+                    Merci Jean-Christophe. Votre Bain de masse épaississant est en cours de préparation et sera livré demain.
+                </p>
+                <div class="ks-confirmation__detail">
+                    <div class="ks-confirmation__product">
+                        <img src={bainDeForceUrl} alt="Bain de Masse Épaississant" class="ks-confirmation__product-img" />
+                        <div>
+                            <p class="ks-confirmation__product-range">GENESIS HOMME</p>
+                            <p class="ks-confirmation__product-name">Bain de Masse Épaississant</p>
+                            <p class="ks-confirmation__product-price">32,80 €</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ks-mc-banner" role="note">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <span>Email de confirmation envoyé via <strong>Marketing Cloud</strong> à jean-christophe@email.com</span>
+                </div>
+                <div class="ks-confirmation__actions">
+                    <button class="ks-btn-secondary" onclick={handleBackHome}>Continuer mes achats</button>
+                </div>
+            </div>
+        </main>
+    </template>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="ks-footer">
+        <div class="ks-footer__inner">
+            <img src={logoUrl} alt="Kérastase Paris" class="ks-footer__logo" />
+            <nav class="ks-footer__nav" aria-label="Liens légaux">
+                <a href="#" class="ks-footer__link">Mentions légales</a>
+                <a href="#" class="ks-footer__link">Confidentialité</a>
+                <a href="#" class="ks-footer__link">Cookies</a>
+                <a href="#" class="ks-footer__link">Trouver un salon</a>
+            </nav>
+            <p class="ks-footer__copy">© 2026 Kérastase Paris. Tous droits réservés.</p>
+            <div class="ks-footer__tech" role="note">
+                <span class="ks-tech-badge">Experience Cloud LWR</span>
+                <span class="ks-tech-badge">Agentforce Headless</span>
+                <span class="ks-tech-badge">Commerce Cloud</span>
+                <span class="ks-tech-badge">Marketing Cloud</span>
+            </div>
+        </div>
+    </footer>
+</template>

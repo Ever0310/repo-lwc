@@ -1,0 +1,57 @@
+.conversation-summary {
+    background-color: var(--slds-g-color-neutral-base-100, #ffffff);
+    border: 1px solid var(--slds-g-color-border-base-1, #c9c9c9);
+    border-radius: var(--slds-g-radius-border-2, 0.25rem);
+    padding: var(--slds-g-spacing-4, 1rem);
+}
+
+.slds-text-color_weak {
+    color: var(--slds-g-color-neutral-base-50, #444444);
+}
+
+.slds-text-color_default {
+    color: var(--slds-g-color-neutral-base-10, #181818);
+}
+
+.section-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--slds-g-color-neutral-base-10, #181818);
+    margin: 0;
+}
+
+.dismiss-link {
+    color: var(--slds-g-color-brand-base-30, #0176d3);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.dismiss-link:hover {
+    text-decoration: underline;
+    color: var(--slds-g-color-brand-base-20, #014486);
+}
+
+.horizontal-separator {
+    height: 1px;
+    background-color: var(--slds-g-color-border-base-1, #e5e5e5);
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.icon-button lightning-icon {
+    --slds-c-icon-color-foreground: var(--slds-g-color-brand-base-30, #0176d3);
+}
+
+.icon-button:hover lightning-icon {
+    --slds-c-icon-color-foreground: var(--slds-g-color-brand-base-20, #014486);
+}

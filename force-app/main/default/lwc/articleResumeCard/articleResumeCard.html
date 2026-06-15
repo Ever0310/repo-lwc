@@ -1,0 +1,85 @@
+<template>
+    <section
+        class="resume-card"
+        aria-labelledby="resume-card-title"
+    >
+        <header class="resume-header">
+            <div class="resume-header-left">
+                <lightning-icon
+                    class="resume-wand-icon"
+                    icon-name="utility:sparkles"
+                    size="xx-small"
+                    alternative-text=""
+                    variant="default"
+                ></lightning-icon>
+                <h2 id="resume-card-title" class="resume-title">
+                    Résumé d'article
+                </h2>
+            </div>
+            <div class="resume-header-right">
+                <span class="feedback-label">Est-ce utile ?</span>
+                <div class="feedback-actions" role="group" aria-label="Retour sur l'utilité du résumé">
+                    <button
+                        type="button"
+                        class="icon-btn"
+                        title="Utile"
+                        aria-label="Marquer comme utile"
+                        onclick={handleThumbUp}
+                    >
+                        <lightning-icon
+                            icon-name="utility:like"
+                            size="xx-small"
+                            alternative-text=""
+                        ></lightning-icon>
+                    </button>
+                    <button
+                        type="button"
+                        class="icon-btn"
+                        title="Pas utile"
+                        aria-label="Marquer comme pas utile"
+                        onclick={handleThumbDown}
+                    >
+                        <lightning-icon
+                            icon-name="utility:dislike"
+                            size="xx-small"
+                            alternative-text=""
+                        ></lightning-icon>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="resume-body">
+            <p class="resume-text">{bodyText}</p>
+        </div>
+
+        <footer class="resume-footer">
+            <button
+                type="button"
+                class="ghost-btn"
+                onclick={handleOpenTicket}
+            >
+                <lightning-icon
+                    class="btn-icon"
+                    icon-name="utility:user"
+                    size="xx-small"
+                    alternative-text=""
+                ></lightning-icon>
+                <span>Ouvrir un ticket</span>
+            </button>
+            <button
+                type="button"
+                class="ghost-btn"
+                onclick={handleAnalyze}
+            >
+                <lightning-icon
+                    class="btn-icon"
+                    icon-name="utility:user"
+                    size="xx-small"
+                    alternative-text=""
+                ></lightning-icon>
+                <span>Analyser mon rendement</span>
+            </button>
+        </footer>
+    </section>
+</template>

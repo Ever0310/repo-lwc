@@ -1,0 +1,23 @@
+<template>
+    <template if:true={isData}>
+        <c-ever-cust360highlight region-width={flexipageRegionWidth} contactid={contactId} custombackground-image-url={custombackgroundImageUrl} collapse-button-background-color={collapseButtonBackgroundColor}
+            background-template={backgroundTemplate} hue-rotation={hueRotation} card-border-radius={cardBorderRadius} display-csat-icon={displayCsatIcon} show-title={showTitle}
+            collapsed={collapsed} display-account-name={displayAccountName} account-type={accountType} display-contact-card={displayContactCard}
+            hide-contact-description={hideContactDescription} metric-multiple-rows={metricMultipleRows} background-metric-color={backgroundMetricColor}
+            metric1icon={metric1icon} metric1iconsize={metric1iconsize} metric1label={metric1label} metric1value={metric1value}
+            metric2icon={metric2icon} metric2iconsize={metric2iconsize} metric2label={metric2label} metric2value={metric2value}
+            metric3icon={metric3icon} metric3iconsize={metric3iconsize} metric3label={metric3label} metric3value={metric3value}
+            displaycaseoverview={displaycaseoverview} caseoverviewicon={caseoverviewicon}
+            displayworkorderoverview={displayworkorderoverview} workorderoverviewicon={workorderoverviewicon}
+            displaycsat={displayCsat} csatlabel={csatlabel} csatminvalue={csatminvalue} csatmaxvalue={csatmaxvalue}
+            displaynps={displayNps} npslabel={npslabel} npsminvalue={npsminvalue} npsmaxvalue={npsmaxvalue}
+            display-churn-risk={displayChurnRisk} churn-risk-icon={churnRiskIcon} churn-risk-label={churnRiskLabel}
+            churn-risk-color={churnRiskColor} churn-threshold1={churnThreshold1} churn-threshold2={churnThreshold2}
+            churn-risk-highly-active={churnRiskHighlyActive} churn-risk-medium-active={churnRiskMediumActive}
+            churn-risk-low-active={churnRiskLowActive}>
+        </c-ever-cust360highlight>
+    </template>
+    <template if:true={isError}>
+        {errorMessage}
+    </template>
+</template>

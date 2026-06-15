@@ -1,0 +1,132 @@
+<template>
+    <div class="jf-container" onclick={handleContainerClick}>
+        <div class="jf-header">
+            <h1 class="jf-title">Jurisforce — Recherche jurisprudentielle</h1>
+        </div>
+
+        <div class="jf-search-area">
+            <lightning-textarea
+                name="question"
+                label="Votre question juridique"
+                placeholder="Ex : Dans quels cas un juge peut-il ordonner une astreinte ?"
+                value={question}
+                onchange={handleQuestionChange}
+                rows="3"
+            ></lightning-textarea>
+            <lightning-button
+                label="Rechercher"
+                variant="brand"
+                onclick={handleSearch}
+                disabled={isLoading}
+                class="jf-btn"
+            ></lightning-button>
+        </div>
+
+        <template lwc:if={isLoading}>
+            <div class="jf-loading">
+                <lightning-spinner alternative-text="Recherche en cours..." size="medium"></lightning-spinner>
+                <p class="jf-loading-text">Analyse jurisprudentielle en cours…</p>
+            </div>
+        </template>
+
+        <template lwc:if={hasError}>
+            <div class="jf-error">
+                <lightning-icon icon-name="utility:error" size="small"></lightning-icon>
+                <span>{errorMessage}</span>
+            </div>
+        </template>
+
+        <template lwc:if={hasResult}>
+            <div class="jf-result-container">
+                <div class="jf-result-header">
+                    <lightning-icon icon-name="utility:answer" size="small"></lightning-icon>
+                    <span>Réponse</span>
+                </div>
+                <div class="jf-result-body">
+                    <div class="jf-result-text" lwc:ref="resultText"></div>
+                </div>
+            </div>
+
+            <!-- Jurisprudence tooltip -->
+            <template lwc:if={tooltipVisible}>
+                <div class="jf-tooltip" style={tooltipStyle}>
+                    <template lwc:if={tooltipLoading}>
+                        <div class="jf-tooltip-loading">
+                            <lightning-spinner size="x-small" alternative-text="Chargement..."></lightning-spinner>
+                        </div>
+                    </template>
+
+                    <template lwc:if={tooltipData}>
+                        <div class="jf-tooltip-header">
+                            <span class="jf-tooltip-id">{tooltipData.decisionId}</span>
+                            <span class="jf-tooltip-date">{tooltipData.date}</span>
+                        </div>
+
+                        <div class="jf-tooltip-row">
+                            <span class="jf-tooltip-label">Juridiction</span>
+                            <span class="jf-tooltip-value">{tooltipData.juridiction}</span>
+                        </div>
+                        <div class="jf-tooltip-row">
+                            <span class="jf-tooltip-label">Chambre</span>
+                            <span class="jf-tooltip-value">{tooltipData.chambre}</span>
+                        </div>
+                        <div class="jf-tooltip-row">
+                            <span class="jf-tooltip-label">Formation</span>
+                            <span class="jf-tooltip-value">{tooltipData.formation}</span>
+                        </div>
+                        <div class="jf-tooltip-row">
+                            <span class="jf-tooltip-label">Solution</span>
+                            <span class="jf-tooltip-value jf-solution">{tooltipData.solution}</span>
+                        </div>
+                        <div class="jf-tooltip-row">
+                            <span class="jf-tooltip-label">Source</span>
+                            <span class="jf-tooltip-value">{tooltipData.source}</span>
+                        </div>
+
+                        <div class="jf-tooltip-section-label">Thèmes</div>
+                        <div class="jf-tooltip-themes">{tooltipData.themes}</div>
+
+                        <div class="jf-tooltip-section-label">Sommaire</div>
+                        <div class="jf-tooltip-sommaire">{tooltipData.sommaire}</div>
+
+                        <div class="jf-tooltip-section-label">
+                            Texte intégral
+                            <button class="jf-toggle-btn" onclick={handleToggleTexte}>
+                                {texteToggleLabel}
+                            </button>
+                        </div>
+                        <div class={texteClass}>{tooltipData.texteIntegral}</div>
+                    </template>
+
+                    <template lwc:if={tooltipNotFound}>
+                        <div class="jf-tooltip-sommaire jf-muted">Décision introuvable dans la base.</div>
+                    </template>
+                </div>
+            </template>
+
+            <!-- Article tooltip -->
+            <template lwc:if={articleTooltipVisible}>
+                <div class="jf-tooltip jf-article-tooltip" style={articleTooltipStyle}>
+                    <template lwc:if={articleTooltipLoading}>
+                        <div class="jf-tooltip-loading">
+                            <lightning-spinner size="x-small" alternative-text="Chargement..."></lightning-spinner>
+                        </div>
+                    </template>
+
+                    <template lwc:if={articleTooltipData}>
+                        <div class="jf-tooltip-header jf-article-tooltip-header">
+                            <span class="jf-article-tooltip-code">{articleTooltipData.nomCode}</span>
+                            <span class="jf-article-tooltip-num">Art. {articleTooltipData.numero}</span>
+                        </div>
+                        <div class="jf-tooltip-texte jf-tooltip-texte-open">{articleTooltipData.texte}</div>
+                        <div class="jf-tooltip-source">{articleTooltipData.etat}</div>
+                    </template>
+
+                    <template lwc:if={articleTooltipNotFound}>
+                        <div class="jf-tooltip-sommaire jf-muted">Article introuvable dans la base.</div>
+                    </template>
+                </div>
+            </template>
+        </template>
+    </div>
+</template>

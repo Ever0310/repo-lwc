@@ -1,0 +1,57 @@
+<template>
+    <div if:true={isVisible} class="slds-box slds-theme_default conversation-summary">
+        <!-- Header with Einstein icon, title and dismiss link -->
+        <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+            <div class="slds-col slds-grid">
+                <lightning-icon
+                    icon-name="utility:einstein"
+                    alternative-text="Einstein"
+                    size="small"
+                    class="slds-m-right_x-small"
+                ></lightning-icon>
+                <h2 class="section-title">
+                    Résumé de la conversation
+                </h2>
+            </div>
+            <div class="slds-col slds-no-flex">
+                <a href="#" onclick={handleDismiss} class="dismiss-link">Fermer</a>
+            </div>
+        </div>
+
+        <!-- Summary content -->
+        <div class="slds-m-bottom_medium">
+            <p class="slds-text-body_regular slds-text-color_weak">
+                {summaryText}
+            </p>
+        </div>
+
+        <!-- Horizontal separator -->
+        <div class="horizontal-separator slds-m-bottom_small"></div>
+
+        <!-- Issue section -->
+        <div class="slds-m-bottom_small">
+            <h3 class="section-title slds-m-bottom_x-small">
+                Problème
+            </h3>
+            <p class="slds-text-body_regular slds-text-color_weak">
+                {issueText}
+            </p>
+        </div>
+
+        <!-- Horizontal separator -->
+        <div class="horizontal-separator slds-m-bottom_small"></div>
+
+        <!-- Feedback section -->
+        <div class="slds-grid slds-grid_vertical-align-center">
+            <span class="slds-text-body_regular slds-text-color_weak slds-m-right_small">
+                Ce résumé vous a-t-il été utile ?
+            </span>
+            <button onclick={handleLike} class="icon-button slds-m-right_x-small" title="Utile">
+                <lightning-icon icon-name="utility:like" size="x-small"></lightning-icon>
+            </button>
+            <button onclick={handleDislike} class="icon-button" title="Pas utile">
+                <lightning-icon icon-name="utility:dislike" size="x-small"></lightning-icon>
+            </button>
+        </div>
+    </div>
+</template>
